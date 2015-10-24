@@ -1,0 +1,24 @@
+% top level directory for subject beta images
+subjectpath = '/nfs/sn_loc/model_estimation_trial_wise/';
+
+% the seed image - must be in the same space as beta images
+Seed_mask = '/nfs/sn_loc/ITK_Snap/SN_left/AT10_SNleft.nii';
+% cell array of subject ID's
+subIDs = {'AT10'};
+% Cue information
+Events = {'GreenCue' 'bf(1)'};
+% Apply Trim? 1 for yes 0 for no
+trim = 0;
+%set threshold for ROI data - values below the threshold are not included
+%in the ROI
+threshold = .5;
+
+for n = 1:length(subIDs);
+    SPM_loc = [subjectpath,subIDs{n},'/SPM.mat'];
+    beta_series_correlation_nomars(SPM_loc,ROI_loc,Events,trim,threshold);
+end
+
+
+    
+    
+    

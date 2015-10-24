@@ -1,0 +1,31 @@
+clear all;
+clc;
+addspm5;
+%Code Directory
+addpath(genpath('/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/irf_analysis_renata/2mm_2x2x2_1stderv_analysis/code/connectivitycode/'))
+%Subjects Directory
+pathstr = '/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/irf_analysis_renata/2mm_2x2x2_1stderv_analysis/subjects_tw/';
+%ROI
+roiFiles = '/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/irf_analysis_renata/2mm_2x2x2_1stderv_analysis/roi_analysis/15_voxSN/15_Voxel_SN_CorrectProbe_SZ-C_-8_-16_-12.nii';
+%SUbject ID Filter
+subIDs = dir([pathstr,'1*']);
+subIDs = 101  102  103  106_3  108  111  112  113  115_2  116  118_exclude  121  122  123  124  125  126  133  201  202  203  204  205  206  207  208  210_2  211_2  212  217  218  219  220  223  224  225
+
+%Regressors of Interest
+cues1 = {'irf_vector' 'bf(1)'};
+%cues2 = {'CueB' 'bf(1)'};
+
+%Windsorization
+trim = 0;
+
+for s = 1:length(subIDs);
+    SPM_loc = [pathstr,subIDs(s).name,'/SPM.mat'];
+    %ROI_loc = [pathstr,'ROIs/',roiFiles.name];
+    beta_series_correlation_nomars(SPM_loc,roiFiles,cues1,trim);
+    %beta_series_correlation_nomars(SPM_loc,roiFiles,cues2,trim);
+end
+
+
+    
+    
+    

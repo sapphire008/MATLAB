@@ -1,0 +1,20 @@
+% location of subject data
+subjectpath = '/nfs/uhr08/conn_analysis_01_2009/subjects/';
+
+roiFile = '/nfs/uhr08/group/ROIs/LDLPFCROI.nii';
+% cell array of subject ID's
+subIDs = {'epc03' 'epc04'}
+% Cue information
+cue = {'CueA' 'bf(1)'};
+% Apply Trim? 1 for yes 0 for no
+trim = 0;
+
+for s = length(subIDs);
+    SPM_loc = [pathstr,subIDs(s).name,'/SPM.mat'];
+    beta_series_correlation_nomars(SPM_loc,roiFiles,cues2,trim);
+end
+
+
+    
+    
+    

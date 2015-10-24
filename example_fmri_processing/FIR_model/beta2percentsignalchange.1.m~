@@ -1,0 +1,11 @@
+function psc_vect = beta2psc(beta_vect,beta_type)
+% PSC = beta2psc(betas,type)
+% convert beta values to percent signal change
+
+
+
+switch type
+    case {'marsbar'}
+    case {'stanford'}
+end
+end

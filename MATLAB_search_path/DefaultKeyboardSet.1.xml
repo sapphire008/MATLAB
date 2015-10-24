@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CustomKeySet derivedfrom="Windows" modifieddefault="false">
+   <Context id="Global">
+      <Action id="scroll-up"/>
+      <Action id="scroll-down"/>
+      <Action id="stop-simulation"/>
+      <Action id="save-workspace"/>
+      <Action id="debug-continue"/>
+   </Context>
+   <Context id="Project">
+      <Action id="open-selection"/>
+   </Context>
+   <Context id="MATLABEditor">
+      <Action id="save-workspace"/>
+   </Context>
+   <Context id="Explorer">
+      <Action id="open-selection"/>
+   </Context>
+</CustomKeySet>

@@ -1,0 +1,21 @@
+subjects = { '201' '202' '203' '204' '205' '206' '207' '208' '210_2' '211_2' '212' '214' '217' '218' ...
+            '219' '220' '223' '224' '225' '101' '102' '103' '106_3' '108' '111' '112' '113' '115_2' ... 
+            '116' '118' '121' '122' '123' '124' '125' '126' '133'};
+% subjects = {'101' '102' '103'}
+        
+subject_dir = '/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/subjects/';
+extension_dir = '/tw_3_4mm_smoothed/SPM.mat';
+save_dir = '/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/beta_results/beta_correlations_results/anat_constrained_functional_left_substantia_nigra/correct_probe_SZ-C/cluster_2_5/probe/';
+event = 'CorrectProbe'
+
+for n = 1:length(subjects);
+
+    SPM_loc = [subject_dir subjects{n} extension_dir];
+    data(n).subjects = subjects{n};
+    data(n).event = event;
+    data(n).beta_series = beta_series_roi_nomars(SPM_loc,'/nfs/u2/SZ_MAIN/new_recon/spm5_analysis/roi/functional/substantia_nigra/CorrectProbe_SZ-C/cluster_corrected_2_5_SN_anat_constrained/cluster_corrected_2_5_SN_anat_constrained_func.nii',{event,'bf(1)'},0);
+
+
+end
+
+eval(['save ', save_dir,event,'.mat ', 'data']);

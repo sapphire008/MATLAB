@@ -1,0 +1,487 @@
+function jobfiles = fMRI_preprocessing(base_dir,subject,Tasks,Mode,Dirs,varargin)
+% Preprocessing of fMRI data. 
+%
+% jobfiles = fMRI_preprocessing(base_dir,subejct,tasks,Mode,task_order)
+%
+% Assuming the follwoing data structure
+%   functional images:
+%       {base_dir}/{tasks_name}/{Dirs.func}/{subject}/{block#}
+%   job_files to save:
+%       {base_dir}/{Dirs.preproc}/{'jobfile.mat'}
+%   movement files to move to:
+%       {base_Dir}/{Dirs.movement}/{tasks_name}
+%
+% Inputs:
+%
+%   base_dir: directory where the project is
+%
+%   subject: subject ID (character array)
+%
+%   Tasks: a structure array that contains task information. Keep the
+%          order of the input of each field in the order of tasks 
+%          administered. This is important when spatial
+%          realigning all the tasks by concatenation (see Mode).
+%          The strucutre has the fields below:
+%       .name: task name
+%       .blocks: select block numbers for each task. If empty, will process
+%                all the blocks with corresponding parameters. By default,
+%                the function search for up to 8 blocks, but will also work
+%                with tasks without block strcutures (input as 0).
+%       .TR: task TR
+%       .numslices: number of slices
+%       .numstacks: number of multiplex
+%       .type: ['reg'|'mux'] type of fMRI acquisiton
+%       .acq_dir: ['h2f'|'f2h'] slice acquisition direction; either head 
+%                 to foot, 'h2f' (default), or foot to head 'f2h'
+%       .acq_order: slice acquisition order; either 'interleaved' or 
+%               'sequential'. Leaving  this field blankd will use default
+%               value 'interleaved'
+%       .odd_first: whether or not odd number slice is the first. Only
+%               relevant when specifying slicemode as 'interleaved'. 
+%               Leaving this field blankd will use default value
+%       0: even first
+%       1: odd first (default)
+%       2: depends on number of slice, if even, start with even; if odd, 
+%          start with odd
+%
+%       For instance:
+%            Tasks.name = {'frac_back','stop_signal','RestingState','mid','mid'};
+%            Tasks.blocks = {1:3,1:2,0,1:2,3:4};
+%            Tasks.TR = [3,2,3,2,2];
+%            Tasks.numslices = [41,25,25,41,30];
+%            Tasks.numstacks = [1,1,1,1,2,2];
+%            Tasks.type = {'reg','reg','reg','reg','mux'};
+%            Tasks.acq_dir = {'h2f','h2f','h2f','h2f','f2h','h2f','f2h'};
+%            Tasks.acq_order = {'i','i','i','i','i','i','i'};
+%
+%   Mode (optional): ['separated'|'concatenated'|'both']:
+%           'separated': do alignment separately
+%           'concatenated': concatednate all tasks. see 'task_order' for
+%                   specifying the concatenation order
+%           'both': do both above (Default)
+%
+%   Dirs(optional): structure that maps the dirctory of the corresponding 
+%                   folders relative to the base_dir. See directory 
+%                   structure assumption above. Dirs has the following
+%                   fields:
+%           .func: Default 'subejects/funcs'
+%           .movement: Default 'movement'
+%           .jobs.preproc: Default 'jobfiles/preproc'
+%
+% Optaionl Parameters
+%
+%   'block_prefix': default 'block', i.e. searching for 'block1', 'block2',
+%                   etc. Can be changed to, for example, 'run', so that the
+%                   function search for 'run1','run2', etc
+%
+%   'verbose': [true|false] print detailed messages. Default is false.
+%
+% Output:
+%
+%   jobfiles: paths to resulting jobfiles
+%
+%
+% Edward Cui: May 7, 2014
+%
+
+DEBUG = false;% print more info
+
+% sanity check for Tasks information
+if range(cellfun(@(x) numel(Tasks.(x)),{'name','TR','numslices','numstacks','type'}))>0
+    error('Not all fields in Tasks input has equal length!');
+end
+% Parse inputs
+%parse varargin and other defaults
+flag = parse_varargin(varargin,{'acq_dir','h2f'},...
+    {'acq_order','interleaved'},{'odd_first',1},{'block_prefix','block'},{'verbose',false});
+if nargin<4 ||isempty(Mode),Mode = 'both';end
+if nargin<5 ||isempty(Dirs)
+    Dirs.funcs = 'subjects/funcs';
+    Dirs.movement = 'movement';
+    Dirs.jobs.preproc = 'jobfiles/preproc';
+end
+% parse block
+if ~isfield(Tasks,'blocks') || isempty(Tasks.blocks)
+    Blocks = repmat([{''},cellfun(@(x) sprintf([flag.block_prefix,'%d'],x),...
+        num2cell(1:8),'un',0)],length(Tasks.name),1);
+else
+    Blocks = cell(length(Tasks.name),max(cellfun(@length,Tasks.blocks)));
+    Blocks(:) = {'empty'};
+    for t = 1:numel(Tasks.blocks)
+        if all(Tasks.blocks{t} > 0)
+            Blocks(t,1:length(Tasks.blocks{t})) = cellfun(@(x) sprintf(...
+                [flag.block_prefix,'%d'],x),num2cell(Tasks.blocks{t}),'un',0);
+        else
+            Blocks(t,1:length(Tasks.blocks{t})) = {''};
+        end
+    end
+end
+% report progress
+fprintf('%s\n',subject);
+% print task order
+if flag.verbose
+    cellfun(@(x,y) fprintf('Task %d: %s\n',x,char(y)),...
+        num2cell(1:length(Tasks.name)),Tasks.name,'un',0);
+end
+jobfiles = [];
+%% PART I: Slice Timing
+% place holder for all the jobs to be run for current subject
+BATCH = [];
+% place holding for output files
+Q = cell(size(Blocks));
+% if any mux, record slice order
+if any(strcmpi(Tasks.type,'mux'))
+   Tasks.slice_order = cell(1,length(Tasks.type));
+end
+% for each task
+for t = 1:length(Tasks.name)
+    % calcualte slice order
+    switch_var({'acq_order','acq_dir','odd_first'},Tasks,flag,t);
+    sliceorder = slice_order_calculator(Tasks.numslices(t),...
+        Tasks.numstacks(t),acq_order,acq_dir,odd_first);
+    % definitely save a copy of the slice order for mux
+    mux_so_file = fullfile(base_dir,Dirs.jobs.preproc,[subject,'_mux_slice_order.mat']);
+    
+    
+    % only for regular sequence
+    if strcmpi(Tasks.type{t},'reg')
+        % modify slice timing correction
+        matlabbatch{1,1}.spm.temporal.st.nslices = Tasks.numslices(t);
+        matlabbatch{1,1}.spm.temporal.st.ta = Tasks.TR(t)-(Tasks.TR(t)/Tasks.numslices(t));
+        switch_var({'acq_order','acq_dir','odd_first'},Tasks,flag,t);
+        matlabbatch{1,1}.spm.temporal.st.so = sliceorder;
+        matlabbatch{1,1}.spm.temporal.st.tr = Tasks.TR(t);
+        matlabbatch{1,1}.spm.temporal.st.refslice = sliceorder(:,1);
+        matlabbatch{1,1}.spm.temporal.st.prefix = 'a';
+    end
+    
+    % Specifying scans for each block
+    for b = 1:length(Blocks(t,:))
+        if strcmpi(Blocks{t,b},'empty'),continue;end
+        % get current path
+        PATH = fullfile(base_dir,Tasks.name{t},Dirs.funcs,subject,Blocks{t,b});
+        % get a list of files to be processed
+        [P,N] = SearchFiles(PATH,'0*.nii');
+        % parse output files
+        Q{t,b} = cellfun(@(x) fullfile(PATH,['a',x]),N,'un',0)';
+        Q{t,b} = Q{t,b}(:);
+        clear N;
+        % check if empty
+        if isempty(P)
+            if flag.verbose && DEBUG,fprintf('%s is empty! Skipped. \n',PATH);end
+            continue;
+        end
+        % slice timing based on type of input data
+        switch Tasks.type{t}
+            case 'reg'
+                % slice timing files
+                matlabbatch{1,1}.spm.temporal.st.scans{b} = cellstr(P);
+            case 'mux'
+                if flag.verbose
+                    disp('mux slice order ...')
+                    disp(slice_order);
+                end
+
+                %requires modified spm_slice_timing function for multiplex
+                spm_slice_timing_mux(char(P),sliceorder,sliceorder(:,1)',...
+                    Tasks.TR(t)/Tasks.numslices(t)*ones(1,2),'a');
+        end
+        clear PATH;
+    end %block
+    % put in matlabbatch files for later run
+    if exist('matlabbatch','var') && ~isempty(matlabbatch) && ...
+            isfield(matlabbatch{1}.spm.temporal.st,'scans') && ...
+            ~isempty(matlabbatch{1}.spm.temporal.st.scans)
+        matlabbatch{1,1}.spm.temporal.st.scans = ...
+                    matlabbatch{1,1}.spm.temporal.st.scans(~cellfun(...
+                    @isempty,matlabbatch{1,1}.spm.temporal.st.scans));
+        BATCH = [BATCH,matlabbatch];clear matlabbatch;
+    end
+end %task
+% save and run all the jobs
+jobfiles = [jobfiles,{run_job_files(BATCH,base_dir,subject,Dirs,'_preproc_slicetime.mat')}];
+
+%% PART II: Spatial Realignment
+% A). if to do 'separated' spatial alignment for each task
+already_relocate_movement = false;
+if any(strcmpi(Mode,{'separated','both'}))
+    clear matlabbatch;
+    matlabbatch = SPM_Spatial_Estimate();
+    BATCH = [];
+    for t = 1:length(Tasks.name)
+        % get rid of empty tasks
+        matlabbatch{1}.spm.spatial.realign.estimate.data = Q(t,find(~cellfun(@isempty,Q(t,:))));
+        if ~isempty(matlabbatch{1}.spm.spatial.realign.estimate.data)
+            BATCH = [BATCH,matlabbatch];
+        end
+    end
+    % save and run all the jobs
+    jobfiles = [jobfiles,{run_job_files(BATCH,base_dir,subject,Dirs,'_preproc_sep_spatial.mat')}];
+    clear BATCH;
+    % move all the movement files to the designated folders
+    relocate_movement_parameter_files(base_dir,subject,Tasks,Blocks,Dirs,flag.verbose&DEBUG);
+    already_relocate_movement = true;
+end
+
+% B). if to do 'concatenated' spatial alignment for each task
+if any(strcmpi(Mode,{'concatenated','both'}))
+    clear matlabbatch;
+    %also get non-empty cells
+    V = Q';
+    V = V(:);
+    V = V(~cellfun(@isempty,V'));
+    % estimate
+    matlabbatch = SPM_Spatial_Estimate();
+    matlabbatch{1, 1}.spm.spatial.realign.estimate.data = V(:);
+    % save and run job
+    jobfiles = [jobfiles,{run_job_files(matlabbatch,base_dir,subject,Dirs,'_preproc_concat_spatial.mat')}];
+    clear V matlabbatch;
+    if ~already_relocate_movement
+        relocate_movement_parameter_files(base_dir,subject,Tasks,Blocks,Dirs,flag.verbose&DEBUG);
+    end
+end
+
+% C). reslice final realignment
+clear matlabbatch; BATCH = [];
+matlabbatch = SPM_Spatial_Write();
+for t = 1:length(Tasks.name)
+     matlabbatch{1, 1}.spm.spatial.realign.write.data = cellstr(char(cellfun(...
+         @char,Q(t,find(~cellfun(@isempty,Q(t,:)))),'un',0)));
+    if ~isempty(matlabbatch{1}.spm.spatial.realign.write.data)
+        BATCH = [BATCH,matlabbatch];
+    end
+end
+jobfiles = [jobfiles,{run_job_files(BATCH,base_dir,subject,Dirs,'_write_spatial.mat')}];
+clear BATCH;
+
+end
+%% run jobfiles
+function jobfile = run_job_files(matlabbatch,base_dir,subject,Dirs,suffix)
+jobfile = fullfile(base_dir,Dirs.jobs.preproc,[subject,suffix]);
+save(jobfile,'matlabbatch');
+spm_jobman('run',matlabbatch);
+end
+
+%% relocate movement files
+function relocate_movement_parameter_files(base_dir,subject,Tasks,Blocks,Dirs,verbose)
+if verbose,disp('relocating movement files ...');end
+for t = 1:length(Tasks.name)
+    for b = 1:length(Blocks(t,:))
+        if strcmpi(Blocks{t,b},'empty'),continue;end
+        [P,V] = SearchFiles(fullfile(base_dir,Tasks.name{t},...
+            Dirs.funcs,subject,Blocks{t,b}),'*.txt');
+        if isempty(P)
+            if verbose
+                fprintf('%s does not have movement files!\n',...
+                    fullfile(base_dir,Tasks.name,Dirs.funcs,subject,Blocks{t,b}));
+            end
+            continue;
+        end
+        eval(['!cp ',char(P),' ',fullfile(base_dir,Dirs.movement,Tasks.name{t},...
+            [subject,'_',Tasks.name{t},'_',Blocks{t,b},'_',char(V)])]);
+    end
+end
+end
+
+%% efficiently set variables
+function switch_var(field_names,Tasks,flag,t)
+for n = 1:length(field_names)
+    if isfield(Tasks,field_names{n})
+        out_var = Tasks.(field_names{n}){t};
+    else
+        out_var = flag.acq_order;
+    end
+    assignin('caller','field_name',out_var);
+end
+end
+
+%% spatial estimate
+function matlabbatch = SPM_Spatial_Estimate()
+matlabbatch{1, 1}.spm.spatial.realign.estimate.data = [];
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.quality = 0.9000;
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.sep = 4;
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.fwhm=5;
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.rtm=0;%register to first
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.interp=2;
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.wrap=[0,0,0];
+matlabbatch{1, 1}.spm.spatial.realign.estimate.eoptions.weight='';
+end
+
+%% spatial write
+function matlabbatch = SPM_Spatial_Write()
+matlabbatch{1, 1}.spm.spatial.realign.write.data = [];
+matlabbatch{1, 1}.spm.spatial.realign.write.roptions.which=[2,1];
+matlabbatch{1, 1}.spm.spatial.realign.write.roptions.interp=4;
+matlabbatch{1, 1}.spm.spatial.realign.write.roptions.wrap=[0,0,0];
+matlabbatch{1, 1}.spm.spatial.realign.write.roptions.mask = 0;% no masking
+matlabbatch{1, 1}.spm.spatial.realign.write.roptions.prefix = 'r';
+end
+%% varargin input
+function flag = parse_varargin(options, varargin)
+% Search for options specified in 'options'.
+% input as triplet cellstrs, {'opt1','default1'}.
+flag = struct();%place holding
+for n = 1:numel(varargin)
+    % search if a certain option is present in the specification
+    tmp = ismember(options(1:2:end),varargin{n}{1});
+    if any(tmp)
+        flag.(varargin{n}{1}) = options{2*find(tmp,1)};
+    else
+        flag.(varargin{n}{1}) = varargin{n}{2};
+    end
+    clear tmp;
+end
+end
+%% calcualte slice order
+function seq = slice_order_calculator(numslices,numstacks,slicemode,positionmode,oddfirst)
+% Calcualte slice acquisition order
+% seq = slice_order_calculator(numslices(t),numstacks,slicemode,positionmode,oddfirst);
+% 
+% Inputs:
+%   numslices(t): number of slices
+%   numstacks (optional): if multiplex, input a number greater than 1
+%   slicemode (optional): order slices are acquired
+%       'interleaved' (default)
+%       'sequential'
+%   positionmode(optional): the way slices are labeled
+%       'f2h': foot to head (default)
+%       'h2f': head to foot
+%   oddfirst (optional): whether or not odd number slice is the first. Only
+%                       relevant when specifying slicemode as 'interleaved'
+%       0: even first
+%       1: odd first (default)
+%       2: depends on number of slice, if even, start with even; if odd, 
+%          start with odd
+
+
+% parse optional inputs
+if nargin<2 || isempty(numstacks) || numstacks<1
+    numstacks = 1;
+end
+if nargin<3 || isempty(slicemode)
+    slicemode = 'interleaved';
+end
+if nargin<4 || isempty(positionmode)
+    positionmode = 'f2h';
+end
+if nargin<5 || isempty(oddfirst)
+    oddfirst = 1;
+end
+if strcmpi(slicemode(1),'s'),slicemode = 'sequential';end
+if strcmpi(slicemode(1),'i'),slicemode = 'interleaved';end
+% slice acquisition order
+switch slicemode
+    case 'sequential'
+        seq = 1:1:numslices;
+    case 'interleaved'
+        switch oddfirst
+            case 0 %even first
+                seq = [2:2:numslices, 1:2:numslices];
+
+            case 2 %according to number of slices. 
+                   %If even, start with even, if odd start with odd
+                   if mod(numslices,2) == 1 %odd
+                       seq = [1:2:numslices, 2:2:numslices];
+                   else% even
+                       seq = [2:2:numslices, 1:2:numslices];
+                   end
+            otherwise %odd first, default
+                seq = [1:2:numslices, 2:2:numslices];                  
+        end
+    otherwise
+        error('unrecognized slice mode input');
+end
+
+% change slice order according to position mode (way to label slices)
+switch positionmode
+    case 'f2h' % foot to head, default
+    case 'h2f' % head to foot, reverse the sequence order
+        seq = numslices - seq + 1;
+end
+
+% for the case with multiplex/multiplane acquisition
+if numstacks > 1
+    seq = bsxfun(@plus,max(seq(:))*(0:(numstacks-1))',seq);
+end
+end
+
+%% Search Files
+function [P,N] = SearchFiles(Path,Target)
+% Routine to search for files with certain characteristic names. It does
+% not search recursively. However, the function can search under multiple
+% layers of sub-directories, when specifying Target variable in the format 
+% *match1*/*match2*. Regular expression (regexp) is allowed.
+%
+% [P, N] = searchfiles(Path, Target)
+%
+% Inputs:
+%       Path: path to search files in
+%       Target: target file format, accept wildcards
+% 
+% Outputs:
+%       P: cellstr of full paths of files found
+%       N: cellstr of names (without the path) of files found
+
+% get a list of target directories and subdirectories
+original_targets = regexp(Target,'/','split');
+% remove regular expression
+counter = zeros(1,numel(original_targets));
+targets = original_targets;
+for n = 1:length(targets)
+    while true
+        x = regexp(targets{n},'('); y = regexp(targets{n},')');
+        if isempty(x) || isempty(y),break;end
+        targets{n} = strrep(targets{n},targets{n}(x(1):y(1)),'*');
+        counter(n) = counter(n)+1;
+        if numel(counter)>1000,error('maximum iteration exceeded!');end
+        pause(0.01);
+    end
+end
+% addively add the result directories to the output
+P = cellstr(Path);
+for t = 1:length(targets)
+    try
+        % get the list of directories
+        [P,N] = cellfun(@dir_tree,P,repmat(targets(t),size(P)),'un',0);
+        % unwrap the directories
+        P = unwrap_cellstr(P);
+        N = unwrap_cellstr(N);
+        if counter(t)>0
+            P = P(~cellfun(@isempty,regexp(N,original_targets{t})));
+            N = N(~cellfun(@isempty,regexp(N,original_targets{t})));
+        end
+    catch ERR
+        error('Cannot find the specified files\n');
+    end
+end
+end
+
+function [V,N] = dir_tree(P,T)
+X = dir(fullfile(P,T));
+if isempty(X)
+    V = {};
+    N = {};
+    return;
+end
+N = {X.name};
+clear X;
+V = cellfun(@(x) fullfile(P,x),N,'un',0);
+end
+
+function C_out = unwrap_cellstr(C)
+C_out = [];
+for n = 1:length(C)
+    if ischar(C{n})
+        C_out = [C_out,C(n)];
+    elseif iscellstr(C{n})
+        C_out = [C_out,C{n}];
+    else
+        C_out = [C_out,C{n}];
+    end
+end
+% check if everything is cellstr now
+TEST = cellfun(@iscellstr,C_out);
+if any(TEST)
+    C_out = unwrap_cellstr(C_out);
+end
+end

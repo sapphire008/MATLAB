@@ -1,0 +1,106 @@
+% This script accepts subject name(s) and a prefix of correlation images
+% after beta estimations / connectivities have been performed. For each
+% pair of images (say CueA and CueB), the script outputs 3 correlation
+% contrast images (Ratanhcorr, Rcorr, and Zcorr).
+%
+% This script should be in the same directory as beta_series_contrasts.m .
+% The current script is a batch script which calls beta_series_contrasts.m
+% and executes the script one subject / pair of files at a time.
+%
+% This script makes a general assumption that every subject has the
+% same folder structure. For example,
+%
+%                <conn_analysis_name>/
+%                       |
+%        <---------------------------->
+%           |       |           |
+%         code/   subjects/   job_files/                ...
+%                   |
+%           <---------------------->
+%               |           |
+%             subj_01/    subj_02/                      ...
+%               |
+%         <-------------------------------->
+%           |                          |                       
+%         conn/    <conditions_block1 - blockN>.mat  ...
+%           |
+%     <-------------->
+%        |        |
+%     SPM.mat   beta_0001.img                           ...
+%
+% However, you can modify the paths below to match whichever structure
+% your analysis represents.
+%
+% OUTPUT:
+%   In each subject's conn/ directory, there will be 3 images named:
+%   <output_prefix>_Rcorr_<roi_name>_<event_name>_XXX-YYY.nii
+%   <output_prefix>_Zcorr_<roi_name>_<event_name>_XXX-YYY.nii
+%   <output_prefix>_Ratanhcorr_<roi_name>_<event_name>_XXX-YYY.nii
+%
+% NOTES:
+%   + IMPORTANT: any .nii currently in output directory will be replaced
+%   + Any missing files will be skipped
+%   + Make sure to use exact prefixes (name and case-sensitive)
+%     for scripts to detect images
+%
+% Questions?
+%   + Dennis Thompson: dennisthompso@gmail.com
+%   + Paul Deramo: pjderamo@ucdavis.edu
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% DO NOT EDIT ABOVE THIS LINE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% addpath on the code directory below so you can call these scripts
+addpath('/nfs/uhr08/code/connectivitycode/');
+
+% subject_dir is the path in the analysis where the subject folders are
+% located (in example above, /.../conn_analysis_name/subjects/)
+subject_dir = '/nfs/sn_loc/analysis/beta_series_correlations/2mm/';
+
+
+% subject_SPMmat_path is the path in the subject's folders where the
+% SPM.mat is located (in example above, 'conn/')
+subject_SPMmat_path = '/nfs/sn_loc/analysis/model_estimations/model_estimation_trialwise_2mm/';
+
+% img_prefix is the prefix of the two files you wish to contrast ...
+% NOTE: MAKE SURE THAT EACH PREFIX IS UNIQUE SINCE YOU ONLY WANT TO SELECT
+%       2 FILES MAX ... THIS SHOULD SUBTRACT 2 FILES ****
+img_prefix = 'STNleftCue';
+
+% all_subs is a cell array of subject names to feed into beta series
+%all_subs = {'epc03', 'epc04', 'epc05', 'epc06', 'epc08', 'epc11', 'epc17', 'epc18', 'epc19', 'epc20', 'epc21', 'epc22', 'epc24', 'epc25', 'epc26', 'epc28', 'epc30', 'epc31', 'epc32', 'epc34', 'epc39', 'epc41', 'epc42', 'epc45', 'epc46', 'epc47', 'epc48', 'epc49', 'epc54', 'epc56', 'epc58', 'epc60', 'epc61', 'epc62', 'epc63', 'epc64', 'epc65', 'epc66', 'epc67', 'epc70', 'epc71', 'epc72', 'epc73', 'epc74', 'epc76', 'epc77', 'epc78', 'epc79', 'epc80', 'epc82', 'epc85', 'epp02', 'epp05', 'epp07', 'epp101', 'epp127', 'epp128', 'epp129', 'epp13', 'epp130', 'epp131', 'epp132', 'epp134', 'epp139', 'epp141', 'epp143', 'epp145', 'epp15', 'epp152', 'epp153', 'epp154', 'epp157', 'epp158', 'epp16', 'epp168', 'epp172', 'epp174', 'epp176', 'epp179', 'epp181', 'epp182', 'epp184', 'epp193', 'epp20', 'epp203', 'epp205', 'epp21', 'epp26', 'epp29', 'epp39', 'epp46', 'epp51', 'epp58', 'epp59', 'epp62', 'epp63', 'epp66', 'epp70', 'epp79_12m', 'epp85', 'epp88', 'epp90'};
+%all_subs = {'epc89', 'epp119', 'epp173', 'epp177', 'epp213', 'epp217'};
+%all_subs = {'AT36'};
+%all_subs = {'uhr01_2', 'uhr07', 'uhr14', 'uhr17', 'uhr18', 'uhr25', 'uhr29', 'uhr32', 'uhr33', 'uhr34', 'uhr35', 'uhr41', 'uhr42', 'uhr68_6m', 'uhr72_2', 'uhr73', 'uhr77', 'uhr78', 'uhr80', 'uhr81', 'uhr85', 'uhr87', 'uhr88', 'uhr89', 'uhr90', 'epc11', 'epc20', 'epc21', 'epc25', 'epc31', 'epc32', 'epc34', 'epc39', 'epc45', 'epc47', 'epc48', 'epc49', 'epc54', 'epc56', 'epc58', 'epc61', 'epc63', 'epc66', 'epc70', 'epc71', 'epc72', 'epc73', 'epc76', 'epc82', 'epc93', 'epc94', 'epc95', 'epc98', 'epc99', 'epc100'};
+all_subs = {'AT10','AT11','AT13','AT14','AT15','AT17','AT22','AT23','AT24','AT26','AT29','AT30','AT31','AT32','AT33','AT36'};
+
+% the prefix of the output image for each subject
+% e.g.: cueB-CueA
+output_prefix = 'R_atanh_STNleftCueRed+Green';
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% DO NOT EDIT BELOW THIS LINE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+for i = 1:length(all_subs)
+    files = dir([subject_dir, all_subs{i}, '/R_atanh_corr/R_atanh_corr_' img_prefix, '*']);
+
+    if ~(length(files) == 2)
+        disp(['SKIPPING: ', all_subs{i}, ' has no files with the input prefix']);
+    else
+        file_list = {};
+        for n = 1:length(files)
+            file_list{n} = [subject_dir, all_subs{i}, '/R_atanh_corr/', files(n).name];
+            fprintf(['Image ' num2str(n) ': ' files(n).name '\n']);
+        end
+        %pause
+        file_list = char(file_list);
+
+        beta_series_contrasts(file_list,[1 1],[subject_dir, all_subs{i}, '/R_atanh_corr/', output_prefix,'.nii']);
+    end
+end
