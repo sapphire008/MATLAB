@@ -22,5 +22,5 @@ function Vs = eph_window(Vs, ts, Window, start_time)
 
 if nargin<4 || isempty(start_time), start_time = 0;end
 Vs = Vs(eph_time2ind(Window(1), ts, start_time): ...
-    eph_time2ind(Window(2), ts, start_time));
+    eph_time2ind(Window(2), ts, start_time), :);
 end
