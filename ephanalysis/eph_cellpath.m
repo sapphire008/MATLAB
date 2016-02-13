@@ -12,13 +12,17 @@ dinfo = regexp(cell_label, '([\w\s]+).(\d+)([a-z_A-Z]+)(\d+).S(\d+).E(\d+)','tok
 if isempty(dinfo)
     dinfo = regexp(cell_label, '([\w\s]+).(\d+)([a-z_A-Z]+)(\d+)','tokens');
 end
-dinfo = dinfo{1};
+try
+    dinfo = dinfo{1};
+catch
+    error('Invalid cell label %s. Format: Name.ddMMMyy, e.g. Cell A.02Jun15', cell_label);
+end
 % year folder
 year_dir = ['20',dinfo{4}]; % be okay in this century
 % month folder
 month_dict = struct('Jan','01.January','Feb','02.February','Mar','03.March',...
     'Apr','04.April','May','05.May', 'Jun','06.June', 'Jul','07.July',...
-    'Aug','08.August','Sep','09.September','Oct','10.Ocotobber',...
+    'Aug','08.August','Sep','09.September','Oct','10.October',...
     'Nov','11.November','Dec','12.December');
 month_dir = month_dict.(dinfo{3});
 % data folder

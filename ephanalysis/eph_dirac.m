@@ -17,7 +17,7 @@ function delta = eph_dirac(ts,dur,phi,h,collapse)
 %   h: Height of the singularity (origin) where non-zero value occur.
 %      Deafult heigth is 1.
 %   collapse: [true|false] collaspe Dirac function with different phase
-%      shift by adding across phi (columns). Default is true.
+%      shifts by adding across phi (columns). Default is true.
 %
 % Output:
 %   delta: if not collpased, returns a matrix with row corresponding to 
@@ -40,7 +40,7 @@ if nargin<5 || isempty(collapse), collapse = true; end
 % Make Dirac Delta function
 phi_ind = eph_time2ind(phi,ts,dur(1)); % convert to indices
 if collapse
-    delta = zeros(diff(eph_time2ind(dur,ts)),1);
+    delta = zeros(1+diff(eph_time2ind(dur,ts)),1);
     delta(phi_ind) = h;
 else
     % initialize matrix

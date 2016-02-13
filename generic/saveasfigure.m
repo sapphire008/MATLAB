@@ -16,27 +16,26 @@ function saveasfigure(h, fname, fmt, varargin)
 flags = InspectVarargin(varargin, {'index',1}, {'quality',90});
 
 [PATH, NAME, EXT] = fileparts(fname);
-if isempty(EXT)
-    if  nargin<3 || isempty(fmt)
-        fmt = 'fig';
+% Infer format from extension if fmt not provided
+if nargin<3 || isempty(fmt)
+    tmpEXT = lower(strrep(EXT, '.',''));
+    switch tmpEXT
+        case {'jpeg','jpg'}
+            fmt = 'jpg';
+        case {'tiff','tif'}
+            fmt = 'tiff';
+        case {'png', 'bmp','gif','ps','eps','pdf','pcx','ppm',...
+                'pgm','pbm','svg','fig','ras','xwd','hdf'}
+            fmt = tmpEXT;
+        otherwise % not known format
+            fmt = 'fig'; % force MATLAB figure
     end
 else
-    if nargin<3 || isempty(fmt)
-        fmt = EXT;
-    end
+    fmt = strrep(fmt,'.','');
 end
-EXT = strrep(EXT,'.','');
-% check if is in list of known format extension
-if ismember(EXT, {'fig', 'pcx', 'ras', 'xwd', 'hdf', 'gif', 'ps','psc',...
-            'ps2','psc2','eps','epsc','eps2','epsc2','pdf',...
-            'svg','tiffnoncompression','png','bmp', 'bmpmono',...
-            'bmp256','bmp16m','pcxmono','pcx16','pcx256','pcx24b','pbm',...
-            'pbmraw','pgm','pgmraw','ppm','ppmrawo','tiff','tif','jpeg',...
-            'jpg','jpeg2000'})
-    fname = fullfile(PATH, NAME);
-end
+
+fname = fullfile(PATH, NAME);
 fname = strrep(fname,'\','/');
-fmt = strrep(fmt,'.','');
 
 switch lower(fmt)
     case 'fig'
@@ -67,32 +66,44 @@ switch lower(fmt)
             'svg','tiffnoncompression','png','bmp', 'bmpmono',...
             'bmp256','bmp16m','pcxmono','pcx16','pcx256','pcx24b','pbm',...
             'pbmraw','pgm','pgmraw','ppm','ppmrawo','tiff','tif','jpeg',...
-            'jpg','jpeg2000'}
+            'jpg','jpeg2000'} % now infer EXT from format
         % duplicate formats
         switch fmt
-            case {'jpg','jpeg2000'}
+            case {'jpg','jpeg2000', 'jpeg'}
                 fmt = sprintf('jpeg%d', flags.quality);
-                ext = '.jpg';
-            case 'tif'
+                EXT = '.jpg';
+            case {'tif', 'tiff','tiffnoncompression'}
                 fmt = 'tiff';
-                ext = '.tif';
-            case 'bmp'
+                EXT = '.tif';
+            case {'bmp','bmp256','bmp16m'}
                 fmt = 'bmp256';
-                ext = '.bmp';
+                EXT = '.bmp';
+            case 'bmpmono'
+                EXT = '.bmp';
             case {'ps','psc'}
                 fmt = 'psc';
-                ext = '.ps';
+                EXT = '.ps';
             case {'ps2','psc2'}
                 fmt = 'psc2';
-                ext = '.ps';
+                EXT = '.ps';
+            case {'pcxmono','pcx16','pcx256','pcx24b'}
+                EXT = '.pcx';
+            case {'pbmraw','pbm'}
+                EXT = '.pbm';
+            case {'pgm','pgmraw'}
+                EXT = '.pgm';
+            case {'ppm','ppmrawo'}
+                EXT = '.ppm';
             case {'eps','epsc'}
                 fmt = 'epsc';
-                ext = '.eps';
+                EXT = '.eps';
             case {'eps2','epsc2'}
                 fmt = 'epsc2';
-                ext = '.eps';
+                EXT = '.eps';
+            otherwise
+                EXT = ['.',fmt];
         end
-        fname = [fname, ext];
+        fname = [fname, EXT];
         axs = findobj(h,'type','axes');
         for n = 1:length(axs)
             axs(n).XTickMode = 'manual';
@@ -105,7 +116,7 @@ switch lower(fmt)
         currentcolor = get(h, 'color');
         % set background color to white
         set(h, 'color','w');
-        print(h, ['-d',fmt], '-r300', fname);
+        print(h, ['-d',fmt], '-r600', fname);
         % set the color back
         set(h, 'color', currentcolor);
     otherwise

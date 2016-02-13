@@ -20,7 +20,7 @@ function [num_spikes, spike_time, spike_heights] = eph_count_spikes(Vs, ts, vara
 %
 %   Default: {'MINPEAKHEIGHT', -10}
 %
-% Outpus:
+% Outputs:
 %   num_spikes: number of spikes for each trial
 %   spike_time: indices of the spike, returned as one cell array of time
 %           vectors per trial
@@ -42,7 +42,12 @@ numTrials = size(Vs,2);
 spike_heights = cell(1,numTrials);
 spike_time = cell(1,numTrials);
 for m = 1:numTrials
-    [spike_heights{m}, spike_time{m}] = findpeaks(Vs(:,m), varargin{:});
+    try
+        [spike_heights{m}, spike_time{m}] = findpeaks(Vs(:,m), varargin{:});
+    catch
+        spike_heights{m} = NaN;
+        spike_time{m} = NaN;
+    end
 end
 num_spikes = cellfun(@numel, spike_time);
 spike_time = cellfun(@(x) eph_ind2time(x,ts), spike_time, 'un',0);

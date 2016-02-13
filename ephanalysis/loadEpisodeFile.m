@@ -65,7 +65,7 @@ channelDict = struct(...
     'VoltADC1','VoltA','VoltADC3','VoltB','VoltADC5','VoltC','VoltADC7','VoltD',...
     'CurADC0','CurA','CurADC2','CurB','CurADC4','CurC','CurADC6', 'CurD',...
     'StimulusAmpA', 'StimulusA','StimulusAmpB','StimulusB','StimulusAmpC','StimulusC','StimulusAmpD','StimulusD',...
-    'StimulusAmpA9','StimulusA');
+    'StimulusAmpA9','StimulusA','StimulusAmpB9','StimulusB','StimulusAmpC9', 'StimulusAmpC', 'StimulusAmpD9','StimulusAmpD');
 info.numChannels = 4; % A, B, C, and D
 
 % open file, assuming the file is good, as checked in the main function
@@ -131,7 +131,10 @@ zData.protocol.numTraces = numel(zData.protocol.channelNames);
 zData.protocol = orderfields(zData.protocol);
 
 % stop here if infoOnly
-if infoOnly, return; end
+if infoOnly
+    fclose(fid); 
+    return; 
+end
 for chan = 1:zData.protocol.numTraces
     traceFactor = fread(fid, 1, 'float32');
     traceLength = fread(fid, 1, 'int32');

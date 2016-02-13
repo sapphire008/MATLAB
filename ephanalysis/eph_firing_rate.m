@@ -1,7 +1,7 @@
 function R = eph_firing_rate(Vs, ts, method, varargin)
 % Estimate a continuous, time varying firing rate
 %
-% r = eph_firing_rate(Vs, ts, method)
+% R = eph_firing_rate(Vs, ts, method, ...)
 %
 % Inputs:
 %   Vs: voltage time series, N x M matrix with N time points and M trials 
@@ -21,8 +21,8 @@ function R = eph_firing_rate(Vs, ts, method, varargin)
 %   corresponding columns of Vs.
 %   
 % Output:
-%   R: time series of the same dimension as Vs, containing calculate firing
-%      rate in units of [Hz]
+%   R: time series of the same dimension as Vs, containing calculated
+%      firing rate in units of [Hz]
 % 
 % Depends on EPH_COUNT_SPIKES, EPH_TIME2IND, EPH_IND2TIME
 %
