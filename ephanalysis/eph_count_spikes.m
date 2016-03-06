@@ -30,7 +30,7 @@ function [num_spikes, spike_time, spike_heights] = eph_count_spikes(Vs, ts, vara
 % Depends on EPH_IND2TIME, FINDPEAKS
 
 if nargin<2 || isempty(varargin)
-    varargin = {'MINPEAKHEIGHT', -10};
+    varargin = {'MINPEAKHEIGHT', -10, 'MINPEAKDISTANCE',0.1};
 else
     IND = find(ismember(varargin(1:2:end), 'MINPEAKDISTANCE'),1);
     if ~isempty(IND)

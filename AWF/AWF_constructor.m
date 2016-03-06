@@ -1,18 +1,18 @@
 function [waveform, duration, Steps]= AWF_constructor(Steps, savedir, boolplot)
-HoldingCurrentBefore = [0,-30:10:30]; %delta pA
+HoldingCurrentBefore = [-50,-30:10:30]; %delta pA
 HoldingCurrentMiddle = -50; % delta pA
 HoldingCurrentAfter = [0, -40, -80, -120, -160]; %delta pA, staircase down
 RinStep = [250, -400]; % input resistance test ms, mA
 RinBetween = [250, 0]; % Duration in-between input resistance test, ms, mA
-DepoStep = [1000,200];% Depolarizing step, ms, mA
+DepoStep = [1000,250];% Depolarizing step, ms, mA
 HypStep = [12000,-200]; % Hyperpolarizing step, ms, mA
 % baseline time (ms) before test, before step and after step, after testing
-Baseline = [1000, 3000, 500, 1500];
+Baseline = [1000, 1000, 500, 2000];
 Duration = 40000; % desired duration, for jitter protocol
 numcycles = 69;
 ts = 0.1; % ms
 factor = 16; % ITC18 scaling factor 16
-protocol = 'back2rest';
+protocol = 'excitaiblity2';
 if nargin<2, savedir = 'D:/AWF.dat'; end
 if nargin<3, boolplot = true; end
 if nargin<1
@@ -27,9 +27,16 @@ if nargin<1
             RinBetween = [500, 0]; % Duration in-between input resistance test, ms, mA
             Steps = GetBaseline(HoldingCurrentBefore,RinStep,RinBetween, Baseline);
         case 'back2rest'
-            RinStep = [300, -50]; % input resistance test ms, mA
+            RinStep = [300,-50]; % input resistance test ms, mA
             RinBetween = [300, 0]; % Duration in-between input resistance test, ms, mA
             Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles); 
+        case 'excitaiblity2'
+            RinStep = [300, 100];
+            RinBetween = [300, 0];
+            Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles); 
+            % add another baseline
+            Steps = [{[1000, 0]}, Steps];
+            Steps{10}(2) = 0;
         case 'jitter'
             HoldingCurrentMiddle = 0; % delta pA
             Steps = Jitter(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles, Duration);

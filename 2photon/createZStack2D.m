@@ -29,7 +29,7 @@ elseif ischar(images) % list of images, but in char
     images = cellstr(images);
 end
 
-I = 0;
+I = [];
 % process the images
 for n = 1:length(images)
     if iscellstr(images)
@@ -38,10 +38,12 @@ for n = 1:length(images)
         I_tmp = images(n).img;
     end
     I_tmp = generateProcessedImage(I_tmp.img, Pallete, rotDeg, filterOpt);
-    I = I + I_tmp;
+    I = cat(3, I, I_tmp);
 end
+% Calculate Maximum Intensity Projection (MIP) image
+I = squeeze(max(I, [], 3));
 % convert to grayscale image
-I = imadjust(mat2gray(I));
+% I = imadjust(mat2gray(I));
 % write to file
 if ~isempty(savedir), imwrite(I, savedir);end
 end

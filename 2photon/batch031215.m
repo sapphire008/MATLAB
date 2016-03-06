@@ -1,5 +1,8 @@
 % batch script to process images
-base_dir = 'X:\Edward\Data\2photon\Image 26 Feb 2015\';
+addmatlabpkg('generic');
+addmatlabpkg('2photon');
+
+base_dir = 'D:\Data\2photon\Image 26 Feb 2015\';
 cells = {'Neocortex A','Neocortex B', 'Neocortex C', 'Neocortex D', 'Neocortex F'};
 
 for n = 1:length(cells)
