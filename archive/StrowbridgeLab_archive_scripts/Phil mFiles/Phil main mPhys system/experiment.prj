@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project><!--experiment.prj-->
+   <MCCProperties>
+      <output>experiment</output>
+      <wrapper>
+         <type>main</type>
+         <component_name>experiment</component_name>
+         <default_class>Main function</default_class>
+      </wrapper>
+      <intermediate_dir>$(PROJECTDIR)/experiment</intermediate_dir>
+      <output_dir>$(PROJECTDIR)/experiment/distrib</output_dir>
+      <link>exe</link>
+      <MCR_runtime_options/>
+      <generate_code_only>false</generate_code_only>
+      <verbose>true</verbose>
+      <create_CTF>false</create_CTF>
+      <options_file/>
+      <debug>false</debug>
+      <toolboxes_on_path shortcut="all"/>
+      <warning shortcut="default">
+         <warn name="specified_file_mismatch">enable</warn>
+         <warn name="repeated_file">enable</warn>
+         <warn name="switch_ignored">enable</warn>
+         <warn name="missing_lib_sentinel">enable</warn>
+         <warn name="demo_license">enable</warn>
+      </warning>
+   </MCCProperties>
+   <file_info>
+      <category name="Main function"><!--Do not modify the value of the name attribute, unless it is a class name.-->
+         <file>$(PROJECTDIR)/acquire/experiment/experiment.m</file>
+      </category>
+      <category name="Other files"><!--Do not modify the value of the name attribute, unless it is a class name.-->
+         <file>$(PROJECTDIR)/ITC18VB.dll</file>
+         <file>$(PROJECTDIR)/analysisFun.m</file>
+         <file>$(PROJECTDIR)/benProtocolViewer.m</file>
+         <file>$(PROJECTDIR)/blankAPsWithConstant.m</file>
+         <file>$(PROJECTDIR)/buildSource.asv</file>
+         <file>$(PROJECTDIR)/buildSource.m</file>
+         <file>$(PROJECTDIR)/countEvents.m</file>
+         <file>$(PROJECTDIR)/covarianceAnalysis.m</file>
+         <file>$(PROJECTDIR)/covarianceAnalysis2ms.m</file>
+         <file>$(PROJECTDIR)/covarianceAnalysisProfile.mat</file>
+         <file>$(PROJECTDIR)/dcgAnalysis.m</file>
+         <file>$(PROJECTDIR)/detectPSPsMeta.m</file>
+         <file>$(PROJECTDIR)/experiment.prj</file>
+         <file>$(PROJECTDIR)/experimentCommands.txt</file>
+         <file>$(PROJECTDIR)/findPairs.m</file>
+         <file>$(PROJECTDIR)/imageBrowserCommands.txt</file>
+         <file>$(PROJECTDIR)/muaPoly.m</file>
+         <file>$(PROJECTDIR)/multinormalPlot.m</file>
+         <file>$(PROJECTDIR)/newScopeCommands.txt</file>
+         <file>$(PROJECTDIR)/photometrySetup.m</file>
+         <file>$(PROJECTDIR)/polyIntegral.m</file>
+         <file>$(PROJECTDIR)/polyMUA.m</file>
+         <file>$(PROJECTDIR)/polyMetric.m</file>
+         <file>$(PROJECTDIR)/pspFreq.m</file>
+         <file>$(PROJECTDIR)/pspSlope.m</file>
+         <file>$(PROJECTDIR)/randSpread.m</file>
+         <file>$(PROJECTDIR)/searchHelper.m</file>
+         <file>$(PROJECTDIR)/sendData.m</file>
+         <file>$(PROJECTDIR)/separationPlane.m</file>
+         <file>$(PROJECTDIR)/setupFiles.asv</file>
+         <file>$(PROJECTDIR)/setupFiles.m</file>
+         <file>$(PROJECTDIR)/stepResponse.m</file>
+         <file>$(PROJECTDIR)/Coupling/CV2.m</file>
+         <file>$(PROJECTDIR)/Coupling/Contents.m</file>
+         <file>$(PROJECTDIR)/Coupling/alpha.m</file>
+         <file>$(PROJECTDIR)/Coupling/averageCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/averageOnly.m</file>
+         <file>$(PROJECTDIR)/Coupling/batchAverage.m</file>
+         <file>$(PROJECTDIR)/Coupling/batchClassification.m</file>
+         <file>$(PROJECTDIR)/Coupling/batchCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/batchDelta.m</file>
+         <file>$(PROJECTDIR)/Coupling/batchSTA.m</file>
+         <file>$(PROJECTDIR)/Coupling/checkCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/checkSTA.m</file>
+         <file>$(PROJECTDIR)/Coupling/cleanUpCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/detectPSPs.m</file>
+         <file>$(PROJECTDIR)/Coupling/detectPSPsOld.m</file>
+         <file>$(PROJECTDIR)/Coupling/excelCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/featureVsPotential.m</file>
+         <file>$(PROJECTDIR)/Coupling/generateEpisodes.m</file>
+         <file>$(PROJECTDIR)/Coupling/generateStats.m</file>
+         <file>$(PROJECTDIR)/Coupling/generateTraces.m</file>
+         <file>$(PROJECTDIR)/Coupling/overlayPSPs.m</file>
+         <file>$(PROJECTDIR)/Coupling/pspGUI.fig</file>
+         <file>$(PROJECTDIR)/Coupling/pspGui.m</file>
+         <file>$(PROJECTDIR)/Coupling/setupCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/setupSTA.m</file>
+         <file>$(PROJECTDIR)/Coupling/showFit.m</file>
+         <file>$(PROJECTDIR)/Coupling/stimStats.m</file>
+         <file>$(PROJECTDIR)/Coupling/zoomCoupling.m</file>
+         <file>$(PROJECTDIR)/Coupling/zoomSTA.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/fileBrowser.jar</file>
+         <file>$(PROJECTDIR)/FileBrowser/fileBrowser.m</file>
+         <file>$(PROJECTDIR)/Hardware/Contents.m</file>
+         <file>$(PROJECTDIR)/Hardware/asiGUI.fig</file>
+         <file>$(PROJECTDIR)/Hardware/asiGui.m</file>
+         <file>$(PROJECTDIR)/Hardware/audioScope.fig</file>
+         <file>$(PROJECTDIR)/Hardware/audioScope.m</file>
+         <file>$(PROJECTDIR)/Hardware/captureGUI.fig</file>
+         <file>$(PROJECTDIR)/Hardware/captureGUI.m</file>
+         <file>$(PROJECTDIR)/Hardware/changeAudioChannel.m</file>
+         <file>$(PROJECTDIR)/Hardware/checkHalogen.m</file>
+         <file>$(PROJECTDIR)/Hardware/digitalLJscratch.m</file>
+         <file>$(PROJECTDIR)/Hardware/ezVidC60.ocx</file>
+         <file>$(PROJECTDIR)/Hardware/focusMode.m</file>
+         <file>$(PROJECTDIR)/Hardware/forceOff.m</file>
+         <file>$(PROJECTDIR)/Hardware/mitutoyoGUI.fig</file>
+         <file>$(PROJECTDIR)/Hardware/mitutoyoGui.m</file>
+         <file>$(PROJECTDIR)/Hardware/niInterface.m</file>
+         <file>$(PROJECTDIR)/Hardware/readASI.m</file>
+         <file>$(PROJECTDIR)/Hardware/readMitutoyo.m</file>
+         <file>$(PROJECTDIR)/Hardware/setupASI.m</file>
+         <file>$(PROJECTDIR)/Hardware/setupMitutoyo.m</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonImage.m</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonNI.asv</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonNI.m</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonNImx.asv</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonNImx.m</file>
+         <file>$(PROJECTDIR)/Hardware/takeTwoPhotonNIwithMultihead.m</file>
+         <file>$(PROJECTDIR)/Hardware/twoPhotonGUI.m</file>
+         <file>$(PROJECTDIR)/Hardware/updateLabJack.m</file>
+         <file>$(PROJECTDIR)/Hardware/updateSIU.asv</file>
+         <file>$(PROJECTDIR)/Hardware/updateSIU.m</file>
+         <file>$(PROJECTDIR)/Scope/Corel Importer.txt</file>
+         <file>$(PROJECTDIR)/Scope/User Manual.rtf</file>
+         <file>$(PROJECTDIR)/Scope/newScope.m</file>
+         <file>$(PROJECTDIR)/Stats/betainv.m</file>
+         <file>$(PROJECTDIR)/Stats/binocdf.m</file>
+         <file>$(PROJECTDIR)/Stats/binopdf.m</file>
+         <file>$(PROJECTDIR)/Stats/classify.m</file>
+         <file>$(PROJECTDIR)/Stats/combnk.m</file>
+         <file>$(PROJECTDIR)/Stats/distchck.m</file>
+         <file>$(PROJECTDIR)/Stats/fcdf.m</file>
+         <file>$(PROJECTDIR)/Stats/grp2idx.m</file>
+         <file>$(PROJECTDIR)/Stats/histfit.m</file>
+         <file>$(PROJECTDIR)/Stats/nanmean.m</file>
+         <file>$(PROJECTDIR)/Stats/nanstd.m</file>
+         <file>$(PROJECTDIR)/Stats/nansum.m</file>
+         <file>$(PROJECTDIR)/Stats/nanvar.m</file>
+         <file>$(PROJECTDIR)/Stats/normcdf.m</file>
+         <file>$(PROJECTDIR)/Stats/normpdf.m</file>
+         <file>$(PROJECTDIR)/Stats/signrank.m</file>
+         <file>$(PROJECTDIR)/Stats/signtest.m</file>
+         <file>$(PROJECTDIR)/Stats/statgetargs.m</file>
+         <file>$(PROJECTDIR)/Stats/statsrexact.m</file>
+         <file>$(PROJECTDIR)/Stats/tcdf.m</file>
+         <file>$(PROJECTDIR)/Stats/tiedrank.m</file>
+         <file>$(PROJECTDIR)/Stats/tinv.m</file>
+         <file>$(PROJECTDIR)/Stats/ttest2.m</file>
+         <file>$(PROJECTDIR)/Utility/TTestParam.m</file>
+         <file>$(PROJECTDIR)/Utility/batchParseAll.m</file>
+         <file>$(PROJECTDIR)/Utility/cell2mat.m</file>
+         <file>$(PROJECTDIR)/Utility/chiTest.m</file>
+         <file>$(PROJECTDIR)/Utility/combFilter.m</file>
+         <file>$(PROJECTDIR)/Utility/covPlot.m</file>
+         <file>$(PROJECTDIR)/Utility/deltaF.m</file>
+         <file>$(PROJECTDIR)/Utility/deltaFoverF.m</file>
+         <file>$(PROJECTDIR)/Utility/epi2path.m</file>
+         <file>$(PROJECTDIR)/Utility/exportFigure.m</file>
+         <file>$(PROJECTDIR)/Utility/fieldFilter.m</file>
+         <file>$(PROJECTDIR)/Utility/fourier.m</file>
+         <file>$(PROJECTDIR)/Utility/histfit.m</file>
+         <file>$(PROJECTDIR)/Utility/imlineCopy.txt</file>
+         <file>$(PROJECTDIR)/Utility/inputdlg.m</file>
+         <file>$(PROJECTDIR)/Utility/interprocessInstalled.m</file>
+         <file>$(PROJECTDIR)/Utility/meanVals.m</file>
+         <file>$(PROJECTDIR)/Utility/meanVariance.m</file>
+         <file>$(PROJECTDIR)/Utility/norminv.m</file>
+         <file>$(PROJECTDIR)/Utility/onScreen.m</file>
+         <file>$(PROJECTDIR)/Utility/path2epi.m</file>
+         <file>$(PROJECTDIR)/Utility/prefutilsReplacer.m</file>
+         <file>$(PROJECTDIR)/Utility/pspAmp.m</file>
+         <file>$(PROJECTDIR)/Utility/range.m</file>
+         <file>$(PROJECTDIR)/Utility/read2PRaster.m</file>
+         <file>$(PROJECTDIR)/Utility/readABF.m</file>
+         <file>$(PROJECTDIR)/Utility/readBen.m</file>
+         <file>$(PROJECTDIR)/Utility/readBenOld.m</file>
+         <file>$(PROJECTDIR)/Utility/readBiorad.m</file>
+         <file>$(PROJECTDIR)/Utility/readImage.m</file>
+         <file>$(PROJECTDIR)/Utility/readTrace.m</file>
+         <file>$(PROJECTDIR)/Utility/searchExperiments.m</file>
+         <file>$(PROJECTDIR)/Utility/sec2time.m</file>
+         <file>$(PROJECTDIR)/Utility/showFFT.m</file>
+         <file>$(PROJECTDIR)/Utility/signalCorrelation.m</file>
+         <file>$(PROJECTDIR)/Utility/ste.m</file>
+         <file>$(PROJECTDIR)/Utility/stimulus.m</file>
+         <file>$(PROJECTDIR)/Utility/subplot.m</file>
+         <file>$(PROJECTDIR)/Utility/time2sec.m</file>
+         <file>$(PROJECTDIR)/Utility/variance.m</file>
+         <file>$(PROJECTDIR)/Utility/write2PRaster.m</file>
+         <file>$(PROJECTDIR)/Utility/writeBiorad.m</file>
+         <file>$(PROJECTDIR)/experiment64/experiment.ctf</file>
+         <file>$(PROJECTDIR)/experiment64/experiment.exe</file>
+         <file>$(PROJECTDIR)/experiment64/experiment_delay_load.c</file>
+         <file>$(PROJECTDIR)/experiment64/experiment_main.c</file>
+         <file>$(PROJECTDIR)/experiment64/experiment_mcc_component_data.c</file>
+         <file>$(PROJECTDIR)/experiment64/mccExcludedFiles.log</file>
+         <file>$(PROJECTDIR)/experiment64/readme.txt</file>
+         <file>$(PROJECTDIR)/imageBrowser/Contents.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/bestShift.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/blue.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/bnw.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/calcROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/clearROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/clusterHist.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/combineImageStacks.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/compressImageStack.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/convertPock.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/correctX.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/correctY.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/cyan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/cyan2red.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/determineScannerSpeed.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/displayImage.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/drawROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/ellipseScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/exportFrame.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/green.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/highlightROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/imageBrowser.fig</file>
+         <file>$(PROJECTDIR)/imageBrowser/imageBrowser.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/lineScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/lissajousScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/loadROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/locateCells.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/makeRaster.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/micronsPerPixel.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/printFrame.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/processImage.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/purple.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/purple2green.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/rasterScan.fig</file>
+         <file>$(PROJECTDIR)/imageBrowser/rasterScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/readRaster.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/red.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/redSat.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/resizeImage.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/saveImageAs.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/saveMovie.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/saveROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/scaleBar.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/sequenceScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/setCrossHairs.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/setCursor.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/setReference.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/setSliders.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/shapeRaster.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/shapeRasterBackup.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/showHighPower.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/showScaleBar.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/spiralScan.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/traceCell.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/transferCellOutline.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/transferPoints.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/transferROI.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/updateAverage.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/updateLaserIntensity.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/updatePMTGain.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/yellow.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/yellow2blue.m</file>
+         <file>$(PROJECTDIR)/imageBrowser/zStack.fig</file>
+         <file>$(PROJECTDIR)/imageBrowser/zStackGui.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Directory Add-ons/categorizeHilarNeuron.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Directory Add-ons/filterParsed.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/Thumbs.db</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/drive.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/empty.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/folderClosed.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/folderOpen.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/folderZip.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imageCellPart.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imageCellRecon.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imageLowRes.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imageWholeCell.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imgPics.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imgs.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imgsTraces.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/imgsTracesPics.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/myComputer.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/pics.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/sequence.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/traces.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Icons/tracesPics.gif</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/Read Me.txt</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/addEpisodes.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/addNewEpisode.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/addSeqNodes.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/addSubDirs.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/cleanUp.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/clickTable.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/columns.txt</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epiColumns.txt</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/imgColumns.txt</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/whichChannel.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/ampStep.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/calciumLatency.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/fastAHPSlope2.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/firstAmp.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/iOffset.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/numSpikes.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/pulseResponse.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/sagRatio.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/ttlDur.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/ttlVal.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/User-Added Dependecies/vOffset.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LabJackUD_DoublePtr.h</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/MATLAB - LabJackUD Drivers and Samples.pdf</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/ljackuw_Mat.h</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/Read Me.txt</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/autoCorrelate.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/calcBurstProb.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/calcSTA.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/calcSTO.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/commonEvents.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/crosscorrelateSetup.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/dispFreq.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/frequencyTrajectory.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/intervalHist.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/isiCvEvents.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/jointDist.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/metaCorrEvents.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/metaCorrEvents2.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/plotAverageFreq.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/plotFreq.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/plotPercentCorrelation.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/sendJPSTSetup.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Characterization/stimulusCorrEvents.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Detection/Read Me.txt</file>
+         <file>$(PROJECTDIR)/Scope/Event Detection/detectCellAttached.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Detection/detectExtracellular.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Detection/detectPSP.m</file>
+         <file>$(PROJECTDIR)/Scope/Event Detection/detectWCAPs.m</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/Read Me.txt</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/freqVsTimePlot.m</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/generateIV.m</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/rIn.m</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/sag.m</file>
+         <file>$(PROJECTDIR)/Scope/Experiment Characterization/slowAHP.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/Read Me.txt</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fit1Exp.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fit2Exp.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fit3Exp.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fitAlpha.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fitBoltzmann.asv</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fitBoltzmann.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fitLine.m</file>
+         <file>$(PROJECTDIR)/Scope/Fitting/fitSine.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/Contents.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/analysisAxis.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/colorSpread.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/colorSpreadBackup.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/exportSettings.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/exportWithAxes.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/exportWithScaleBars.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/msec2point.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/newScale.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/prepForPrint.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/printWithAxes.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/printWithScaleBars.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/setAxisLabels.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/showEvents.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/showFrameMarker.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/showStims.m</file>
+         <file>$(PROJECTDIR)/Scope/Helper Functions/timeControl.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/Read Me.txt</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/apHeight.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/apRiseFallRatio.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/apThreshold.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/apWidth.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/apWidthHM.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/autoNotch.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/fastAHP.m</file>
+         <file>$(PROJECTDIR)/Scope/Trace Characterization/fastAHPSlope.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/MTEO.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/bandStop.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/burstingProbability.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/calcMean.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/cell2mat.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/characterizePSPs.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/comparePSPs.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/crossCorr.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/detectPSPs.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/detectSpikes.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/eventTriggeredAverage.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/fcnMin.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/findSteps.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/findStims.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/fitDecayDouble.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/fitDecaySingle.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/fitDecayTriple.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/highPass.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/isiCv.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/lowPass.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/metaBar.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/movingAverage.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/movingBlock.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/normalizeMatrix.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/notchFilter.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/oneSidedDeviation.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/overlayPSPs.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/pspGui.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/sigPrint.m</file>
+         <file>$(PROJECTDIR)/Stats/nlinfit/nlinfit.m</file>
+         <file>$(PROJECTDIR)/Stats/nlinfit/statrobustsigma.m</file>
+         <file>$(PROJECTDIR)/Stats/nlinfit/statrobustwfun.m</file>
+         <file>$(PROJECTDIR)/Stats/nlinfit/statset.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Contents.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/axoPatchAlpha.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/bridgeBalance.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/changeRunningChannel.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/checkCellName.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/createExpTTL.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/doRepeat.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/doSingle.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/doStream.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experiment.asv</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experiment.fig</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experiment.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experimentTimer.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experimentTimerITC.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/experimentTimerNoHardware.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/generateStim.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/itc18.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/newSequence.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/reducedNeurons.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/saveExperiment.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/sealTest.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/setDataFolder.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/startRunningScope.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/updateExperiment.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/Contents.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/addAmp.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeAcquisitionRate.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeAdBoard.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeAmp.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeCell.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeCurrent.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeTelegraph.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeTimePerPoint.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeTtlType.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/changeVoltage.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/checkAcquisitionRate.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/createTTL.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/currentAmps.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/defaultProtocol.mat</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/defaultProtocol16.mat</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/defaultProtocol4.mat</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/defaultProtocol8.mat</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/isProtocol.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/loadProtocol.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/makeProtocol.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/protocolViewer.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/removeAmp.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/saveProtocol.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/tabChange.m</file>
+         <file>$(PROJECTDIR)/experiment64/distrib/experiment.ctf</file>
+         <file>$(PROJECTDIR)/experiment64/distrib/experiment.exe</file>
+         <file>$(PROJECTDIR)/experiment64/distrib/readme.txt</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/checkSingleEpisodeCoupling.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/checkSingleEpisodeSTA.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/checkWithinSingleEpisodeCVA.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/checkWithinSingleEpisodeSTA.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/checkWithinSingleEpisodeSTO.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/displayImageBrowser.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/displayNewScope.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/epi/displayProtocol.m</file>
+         <file>$(PROJECTDIR)/FileBrowser/Loaders/img/displayImageBrowser.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/Error_Message.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_AddRequest.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_Constants.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_DoubleToStringAddress.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_ErrorToString.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_GetDriverVersion.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_GetFirstResult.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_GetNextResult.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_GetResult.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_Go.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_GoOne.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_LoadDriver.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_OpenLabJack.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_StringToDoubleAddress.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_eGet.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_eGet_array.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions/ljud_ePut.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPST.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTBatchExample.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTDefaultOptions.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTDefaultOptions.mat</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTDefaultSettings.mat</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTGUI.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTRasterOptions.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTSettings.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/JPSTSmooth.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/Readme.txt</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/dJPST.m</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/dm.mat</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/readmeJPST.txt</file>
+         <file>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles/surpjp.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Single Compartment/Contents.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Single Compartment/HH.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Single Compartment/gA.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Single Compartment/gK.m</file>
+         <file>$(PROJECTDIR)/acquire/experiment/Single Compartment/gNa.m</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/ampContainer.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/ampPanel.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/channelPanel.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/imagingPanel.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/main.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/ttlContainer.fig</file>
+         <file>$(PROJECTDIR)/acquire/protocolViewer/template/ttlPanel.fig</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_Analog.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_Digital.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_Logger.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_SHT.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_Stream.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3/U3_Simple_Timer_Counter.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_Analog.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_Digital_Bit.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_Logger.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_SHT.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_Stream.m</file>
+         <file>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9/UE9_Simple_Timer_Counter.m</file>
+      </category>
+      <category name="C/C++ files"><!--Do not modify the value of the name attribute, unless it is a class name.--></category>
+   </file_info>
+   <packaging>
+      <name>mPhys_full</name>
+      <mcr include="true">
+         <location>default</location>
+      </mcr>
+      <additional_files/>
+   </packaging>
+   <MATLABPath>
+      <Directory>$(MATLABROOT)/toolbox/compiler/deploy</Directory>
+      <Directory>D:\Synapse</Directory>
+      <Directory>$(PROJECTDIR)/</Directory>
+      <Directory>$(PROJECTDIR)/Coupling</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Directory Add-ons</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Icons</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Loaders</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Loaders/epi</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Loaders/img</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Loaders (ABF)</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/Loaders (ABF)/abf</Directory>
+      <Directory>$(PROJECTDIR)/FileBrowser/User-Added Dependecies</Directory>
+      <Directory>$(PROJECTDIR)/Hardware</Directory>
+      <Directory>$(PROJECTDIR)/Hardware/MATLAB_LJUD</Directory>
+      <Directory>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Functions</Directory>
+      <Directory>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples</Directory>
+      <Directory>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/U3</Directory>
+      <Directory>$(PROJECTDIR)/Hardware/MATLAB_LJUD/LJUD_Samples/UE9</Directory>
+      <Directory>$(PROJECTDIR)/Scope</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Event Characterization</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Event Detection</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Experiment Characterization</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Fitting</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Helper Functions</Directory>
+      <Directory>$(PROJECTDIR)/Scope/Trace Characterization</Directory>
+      <Directory>$(PROJECTDIR)/Scope/User-Added Dependencies</Directory>
+      <Directory>$(PROJECTDIR)/Scope/User-Added Dependencies/JPSTmfiles</Directory>
+      <Directory>$(PROJECTDIR)/Stats</Directory>
+      <Directory>$(PROJECTDIR)/Stats/nlinfit</Directory>
+      <Directory>$(PROJECTDIR)/Utility</Directory>
+      <Directory>$(PROJECTDIR)/acquire</Directory>
+      <Directory>$(PROJECTDIR)/acquire/experiment</Directory>
+      <Directory>$(PROJECTDIR)/acquire/experiment/Single Compartment</Directory>
+      <Directory>$(PROJECTDIR)/acquire/protocolViewer</Directory>
+      <Directory>$(PROJECTDIR)/acquire/protocolViewer/template</Directory>
+      <Directory>$(PROJECTDIR)/imageBrowser</Directory>
+      <Directory>C:\Documents and Settings\lab\My Documents\MATLAB</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/general</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/ops</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/lang</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/elmat</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/randfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/elfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/specfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/matfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/datafun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/polyfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/funfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/sparfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/scribe</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/graph2d</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/graph3d</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/specgraph</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/graphics</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/uitools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/strfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/imagesci</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/iofun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/audiovideo</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/timefun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/datatypes</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/verctrl</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/codetools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/helptools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/winfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/winfun/net</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/demos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/timeseries</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/hds</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/guide</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/plottools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/local</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/controllib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/dastudio</Directory>
+      <Directory>$(MATLABROOT)/toolbox/matlab/datamanager</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink/slresolve</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/blocks</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/components</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/fixedandfloat</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/fixedandfloat/fxpdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/fixedandfloat/obsolete</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simdemos/aerospace</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simdemos/automotive</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simdemos/simfeatures</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simdemos/simgeneral</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/dee</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/dastudio/depviewer</Directory>
+      <Directory>$(MATLABROOT)/toolbox/stateflow/stateflow</Directory>
+      <Directory>$(MATLABROOT)/toolbox/rtw/rtw</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/sigbldr</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink/modeladvisor</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink/modeladvisor/fixpt</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink/mplayio</Directory>
+      <Directory>$(MATLABROOT)/toolbox/simulink/simulink/dataobjectwizard</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/hdlshared</Directory>
+      <Directory>$(MATLABROOT)/toolbox/rtw/accel</Directory>
+      <Directory>$(MATLABROOT)/toolbox/stateflow/sfdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/stateflow/coder</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/bioinfo</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/biolearning</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/microarray</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/mass_spec</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/proteins</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/biomatrices</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/biodemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/bioinfo/graphtheory</Directory>
+      <Directory>$(MATLABROOT)/toolbox/compiler</Directory>
+      <Directory>$(MATLABROOT)/toolbox/control/control</Directory>
+      <Directory>$(MATLABROOT)/toolbox/control/ctrlguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/control/ctrlobsolete</Directory>
+      <Directory>$(MATLABROOT)/toolbox/control/ctrlutil</Directory>
+      <Directory>$(MATLABROOT)/toolbox/control/ctrldemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/slcontrollib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daq</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daqguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daqdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daqblks/daqblks</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daqblks/daqmasks</Directory>
+      <Directory>$(MATLABROOT)/toolbox/daq/daqblks/daqmex</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/testmeaslib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/database/database</Directory>
+      <Directory>$(MATLABROOT)/toolbox/database/dbdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/database/vqb</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/distcomp</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/user</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/mpi</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/pctdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/datafun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/datatypes</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/elfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/elmat</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/lapack</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/matfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/ops</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/sparfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/specfun</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/parallel/util</Directory>
+      <Directory>$(MATLABROOT)/toolbox/distcomp/lang</Directory>
+      <Directory>$(MATLABROOT)/toolbox/dotnetbuilder/dotnetbuilder</Directory>
+      <Directory>$(MATLABROOT)/toolbox/eml/eml</Directory>
+      <Directory>$(MATLABROOT)/toolbox/emlcoder/emlcoder</Directory>
+      <Directory>$(MATLABROOT)/toolbox/emlcoder/emlcodermex</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/simtargets</Directory>
+      <Directory>$(MATLABROOT)/toolbox/fixedpoint/fixedpoint</Directory>
+      <Directory>$(MATLABROOT)/toolbox/fixedpoint/fidemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/fixedpoint/fixedpointtool</Directory>
+      <Directory>$(MATLABROOT)/toolbox/gads</Directory>
+      <Directory>$(MATLABROOT)/toolbox/gads/gads</Directory>
+      <Directory>$(MATLABROOT)/toolbox/gads/gadsdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/ident</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/nlident</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/idobsolete</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/idguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/idutils</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/iddemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/iddemos/examples</Directory>
+      <Directory>$(MATLABROOT)/toolbox/ident/idhelp</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/colorspaces</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/images</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/imdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/imuitools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/iptformats</Directory>
+      <Directory>$(MATLABROOT)/toolbox/images/iptutils</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/imageslib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/spcuilib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/imaq/imaq</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/imaqlib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/imaq/imaqdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/imaq/imaqblks/imaqblks</Directory>
+      <Directory>$(MATLABROOT)/toolbox/imaq/imaqblks/imaqmasks</Directory>
+      <Directory>$(MATLABROOT)/toolbox/imaq/imaqblks/imaqmex</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/map</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/mapdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/mapdisp</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/mapformats</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/mapproj</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/mapgeodesy</Directory>
+      <Directory>$(MATLABROOT)/toolbox/map/maputils</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbc</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcdata</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcdesign</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcexpr</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcguitools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbclayouts</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcmodels</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcsimulink</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbctools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/mbc/mbcview</Directory>
+      <Directory>$(MATLABROOT)/toolbox/slvnv/simcoverage</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nncontrol</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nndemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnanalyze</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nncustom</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nndistance</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnformat</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nninit</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnlearn</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnnetinput</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnnetwork</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnperformance</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnplot</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnprocess</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnsearch</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nntopology</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nntrain</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nntransfer</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnet/nnweight</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnguis/nftool</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnguis/nntool</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnobsolete</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnresource</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnutils</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnguis/nnguiutils</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nndemos/nndatasets</Directory>
+      <Directory>$(MATLABROOT)/toolbox/nnet/nnguis/nntraintool</Directory>
+      <Directory>$(MATLABROOT)/toolbox/optim/optim</Directory>
+      <Directory>$(MATLABROOT)/toolbox/optim/optimdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/optimlib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/robust</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctlmi</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctutil</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctobsolete/robust</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctobsolete/lmi</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctobsolete/mutools/commands</Directory>
+      <Directory>$(MATLABROOT)/toolbox/robust/rctobsolete/mutools/subs</Directory>
+      <Directory>$(MATLABROOT)/toolbox/signal/signal</Directory>
+      <Directory>$(MATLABROOT)/toolbox/signal/sigtools</Directory>
+      <Directory>$(MATLABROOT)/toolbox/signal/sptoolgui</Directory>
+      <Directory>$(MATLABROOT)/toolbox/signal/sigdemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/siglib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/filterdesignlib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sl3d/sl3d</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sl3d/sl3ddemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/slcontrol/slcontrol</Directory>
+      <Directory>$(MATLABROOT)/toolbox/slcontrol/slctrlguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/slcontrol/slctrlutil</Directory>
+      <Directory>$(MATLABROOT)/toolbox/slcontrol/slctrldemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldo</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldodemos</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldodemos/optim</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldodemos/estim</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldodemos/estim/docexamples/adaptive</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sldodemos/estim/docexamples/lookuptable</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sloptim/sloptim</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sloptim/sloptguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/sloptim/sloptobsolete</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/slestim/slestguis</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/slestim/slestim</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/slestim/slestmex</Directory>
+      <Directory>$(MATLABROOT)/toolbox/sldo/slestim/slestutil</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/sldv</Directory>
+      <Directory>$(MATLABROOT)/toolbox/stats</Directory>
+      <Directory>$(MATLABROOT)/toolbox/shared/statslib</Directory>
+      <Directory>$(MATLABROOT)/toolbox/symbolic</Directory>
+      <Directory>$(MATLABROOT)/toolbox/wavelet/wavelet</Directory>
+      <Directory>$(MATLABROOT)/toolbox/wavelet/wmultisig1d</Directory>
+      <Directory>$(MATLABROOT)/toolbox/wavelet/wavedemo</Directory>
+      <Directory>$(MATLABROOT)/toolbox/wavelet/compression</Directory>
+   </MATLABPath>
+</project>

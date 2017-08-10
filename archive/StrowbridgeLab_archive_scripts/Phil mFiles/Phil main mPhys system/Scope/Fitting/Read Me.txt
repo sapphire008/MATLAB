@@ -1,0 +1,34 @@
+You may add any fitting function that you like here and it will be incorporated into the scope menu if it meets the following criteria:
+1) When passed no inputs the function must return a character array that describes the type of fitting it performs.
+2) The function must take the four inputs (yData, timePerPoint, startingTime, axisHandle) where:
+    yData is the values of some data over time
+    timePerPoint is the time in ms per data point
+    startTime is the time in ms of the first point in dataTrace
+    axisHandle is the graphics handle for the axis from which the data came
+    traceName is the name of the data trace to which the fit is made
+3) The funciton may return a character array that will be displayed.
+
+Example:
+function stringData = fitLine(yData, timePerPoint, startingTime, axisHandle, traceName)
+% fits line to data
+
+    if ~nargin
+        slope = 'Line';
+        return
+    end
+
+    % check for sufficient input
+    if length(yData) < 2
+        stringData = '';
+        return
+    end
+
+    xData = startingTime + (0:(length(yData) - 1) * timePerPoint)';    
+    values = polyfit(xData, yData, 1);
+
+    % draw a line to show the fit
+    % the button down function pulls a graphics handle from the axis userData that allows writing to the corresponding text box on the right of a scope
+    lineHandle = line('parent', axisHandle, 'color', [1 0 0], 'buttondownfcn', ['set(get(get(gcbo, ''parent''), ''userdata''), ''string'', ''Slope = ' sprintf('%4.1f', values(1)) ', intercept = ' sprintf('%4.1f', values(1)) ''')'],  'xData', xData, 'ydata', polyval(values, xData), 'displayName', traceName);
+
+    % return some text
+    stringData = ['Slope = ' sprintf('%0.0f', values(1))];

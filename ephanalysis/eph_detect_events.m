@@ -135,9 +135,13 @@ for index = 1:length(peaks)
 end
 wherePeaks = wherePeaks(whereStarts>3);
 whereStarts = whereStarts(whereStarts>3);
-correctionTime = flag.Window(1) * zData.protocol.msPerPoint;
-startTimes = ((whereStarts + 1) .* zData.protocol.msPerPoint) + correctionTime;
-peakTimes = ((wherePeaks - 1) .* zData.protocol.msPerPoint) + correctionTime;
+if ~isempty(flag.Window)
+    correctionTime = flag.Window(1) * ts;
+else
+    correctionTime = 0;
+end
+startTimes = ((whereStarts + 1) .* ts) + correctionTime;
+peakTimes = ((wherePeaks - 1) .* ts) + correctionTime;
 %       startTimes = (whereStarts .* zData.protocol.msPerPoint) + correctionTime;
 %       peakTimes = (wherePeaks .* zData.protocol.msPerPoint) + correctionTime;
 if numel(excludeTimesMs) > 0

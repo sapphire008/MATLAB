@@ -1,0 +1,140 @@
+{\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fmodern\fprq1\fcharset0 Courier New;}{\f1\fnil\fcharset0 Courier New;}}
+{\colortbl ;\red0\green0\blue0;}
+{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\cf1\lang1033\f0\fs36 Overview\par
+\fs20 These folders contain a collection of files that create a graphical way to view pClamp abf files.  The viewer uses the abf reading function developed by Forrest Collman downloaded from:\par
+http://www.mathworks.com/matlabcentral/fileexchange/22114\par
+to display information from the headers of abf files in a graphical directory browser that is customizable to display any information from the header of an abf file in a table format.  For episodic abf files, it is possible to display all episodes together or to display each episode as an individual trace.  A data viewing window allows display of one or multiple data traces and allows customizable analyses of the data.  The data viewer comes with some functions that I've used for data analysis in the past, but is intended to allow easy expansion by user-written functions placed in the appropriate folders.  An important caveat is that I don't actually use abf files, so I was only able to test the file reading capabilities on a few example data files that were posted by John Bender at:\par
+http://mosca.caltech.edu/~jbender/import_abf.html\par
+If you find that you are having troubles reading your files please drop me an email and I'll see if I can get it to work.\fs36\par
+\par
+Setup\par
+\fs20 The data viewer requires that you add its subdirectories to the matlab path.  You may do this graphically with the \b pathtool \b0 command by clicking on the "Add with Subfolders..." and selecting the folder containing this User Manual, or at the command line by typing \b addpath(genpath('this_directory')); savepath;\b0\i  \i0 where this_directory is the full path to the directory containing this User Manual.  Also, some of the functions make repeated use of the matlab getpref function.  To speed execution of these functions execute the following line of code to alter the matlab preference handling function to cache preferences in memory:\par
+\b copyfile(fullfile('install_dir', 'fileBrowser', 'User-Added Dependencies', 'prefutilsReplacer.m'), fullfile(matlabroot,'toolbox','matlab','uitools','private','prefutils.m'), 'f');\par
+\b0 where install_dir is the directory containing this document.\par
+\fs36\par
+\par
+\pard\nowidctlpar File Browser\par
+\cf0\fs20 This window has two panes: the left pane holds the directory structure and the right pane holds a table of information about files associated with a selected file or directory.  Clicking on a plus beside a folder in the left panel will open the folder to expose its contents.  Clicking on an episodic file will load all of its episodes into the right pane.  Clicking on a folder will load all files from that folder into the right pane.  Once a set of files has been loaded into the right panel you can view many basic characteristics of those traces by changing what columns are displayed.\par
+\par
+\cf1\fs28 Columns\par
+\cf0\fs20 Columns look up data from abf files and display it in the table.  The columns can be rearranged to suit your visual preferences by dragging.  To sort by the contents of a column simply left click the column header.  To autosize the column right-click the space between the column and the one to its right.  A column can be removed by right clicking on it and clicking \lquote Remove Column\rquote .  You may choose to either leave the column\rquote s name and function in the column registry for later use or permanently eliminate all information about it.  You may add a column to the table by right clicking on an existing column and clicking \lquote Add Column\rquote .  This will display a menu of already existing columns (including any that you have created) as well as a \lquote New\'85\rquote  choice.  Clicking on an existing column will add it to the table and look up the data that it requests from the experiment files currently being displayed.  Clicking on \lquote New\'85\rquote  allows you to add a column of your own choosing.  This is a very flexible feature and is therefore commensurately confusing.  The first field of the \lquote New Column\rquote  window is the name that will appear at the top of the column.  The second field is the column width.  Column width is not terribly important since you can resize columns after creating them by clicking and dragging their borders.  The last field is for the column\rquote s data access function.  This field is a Matlab command that is run for every file loaded into the data table.  The return value of this function is simply placed in the column.  A simple example would be the command \b\lquote Hello World\rquote\b0  (quotations are a necessary part of the command here), which would display \lquote Hello World\rquote  for every experiment in that column.  More interesting columns can be generated by accessing the header structure of the file which is available to the commands.  For instance the command header.lFileStartTime will place in a column the start time in some odd format that I assume is documented somewhere by Axon Instruments.  To get a list of all fields in an abf header, type \b abfload('file_name')\b0  where file_path is the full path to an abf file.  Explanations for these fields can be found at:\par
+http://www.moleculardevices.com/pages/software/developer_info.html\par
+It can become cumbersome to debug a column function in this fashion, so it is often more practical to have code such as \b sprintf(\lquote %0.2f\rquote , holdingPotential(header))\b0 ,\i  \i0 where the sprintf function is used to format the number returned by a function holdingPotential that takes the header as an argument and returns the potential at which a cell is held.\par
+You can copy a column to the system clipboard by clicking on the column and clicking \lquote Copy Column\rquote .  The format is easily pasted into a spreadsheet or text document for archiving.  You may also \lquote Copy All Columns\rquote  in a similar fashion.  If you would rather work with column data in Matlab (as well you ought) then you can export the column data to a workspace variable by clicking \lquote Export Column to Workspace\rquote  and specifying a name for the workspace variable.  For simpler analyses, you can plot a column versus another column by clicking on the column that you would like to serve as the dependent variable and then selecting the independent variable from the \lquote Plot vs\rquote  menu.  This allows you to plot data vs. either a categorical or continuous abscissa in a separate Matlab figure window.\par
+\par
+\cf1\fs28 Data Table\par
+\pard\cf0\fs20 The data table allows you not only to view experimental specifics from the abf files, but also facilitates selecting files or episodes for viewing in a data viewer (use the 'shift' or 'control' keys for multiple selections.  Data viewer windows can also be created by right-clicking on the data table, and are the primary use of this table (discussed below in greater detail).\par
+\cf1\fs36\par
+Data Viewer\par
+\cf0\f1\fs20 The data viewer is for looking at and analyzing data traces.  It can be used for any data set from the command line (\b newScope(sin(0.01:0.01:10*pi))\b0 ) or can be used with the file browser to look at data from experiment files.\par
+\par
+\cf1\f0\fs28 Basic Functionality\par
+\cf0\f1\fs20 The data traces appear in a portion of the data viewer with a white background.  Moving the mouse over this area will cause information about the values of the data trace at the cursor location to be displayed in the column on the right of the window.  Left-clicking the mouse will fix the cursor and allow you to determine differences in value by moving a second cursor in the display window.  Clicking again unfixes the first cursor.  Dragging a rectangle with the middle mouse button allows you to zoom in to the data trace, whereas clicking the middle mouse button without moving the mouse will restore the zoom to display all of the data.  Similarly, you may unzoom the X- or Y- axis separately by middle-clicking on either of them.  To zoom only one axis you left-click and drag a line on these axes or use the scroll wheel.  You may also manually set the zoom using the zoom factor in the bottom left corner of the window.  Once the X-axis is zoomed you may scroll along it with the scroll bar at the bottom of the window.  The arrows at the end of the scroll bar will move the view by 20% of a field of view whereas clicking on the scroll area will move it by one full field of view.   You may also set the maximum and minimum X-axis values by right-clicking the cursor in the data window.  If you have set the fixed (red) cursor then that is the value that will be set as the maximum or minimum, otherwise, the current cursor location will be used.  You may pan the Y-axis with the scroll wheel over the plotting area.\par
+You may also change the horizontal and vertical zoom by using the panels on the right of the figure.  The \lquote X Axis\rquote  panel allows you to manually set beginning and ending points for this axis and also to toggle between unzoomed and zoomed settings.  The Y-axis panel(s) are above the \lquote X-Axis\rquote  panel and allow more sophisticated functionality.  The top of each Y-axis panel allows you to select which trace is being displayed.  Below this is the data value of this channel at the current cursor location.  Below this on the right is a menu that allows you to choose between five different methods for determining the scaling of the Y-axis.  The first method is auto, and displays the full data trace.  The second method is manual and allows you to specify the axis minimum and maximum with the two text fields to the left of this menu (these will be automatically specified by setting the zoom with the mouse).  The third option is \lquote Float H\rquote  and will center the display window on the value that occurs most frequently in the data set (often the resting membrane potential) by finding the maximum of the all-points histogram.  The extent of the Y-axis is determined by the text field immediately below the method selection field.  The fourth choice is N which centers the display around the average of the first 10 points seen in the current zoom and the fifth choice uses the minimum and maximum values of the data trace to center the display window.  You can also use the \lquote Null\rquote  checkbox to null the data trace to the average of the first 10 values visible at the current zoom.  This is helpful for comparing multiple traces that have some variability in their baseline level.  The traces are not re-nulled as you scroll through the window, so that you can compare effects later in the trace after nulling the baseline.  However, checking and unchecking the \lquote Null\rquote  checkbox will always renull the trace to the beginning of the viewed zoom.  The two fields below the \lquote Null\rquote  checkbox are for manipulation of the data trace and will be discussed in the next section.\par
+\par
+\cf1\f0\fs28 Command Box\par
+\cf0\f1\fs20 The command box allows for simple manipulations of data appearing in the data browser.  The text in this box is evaluated immediately before displaying each data trace.  This allows several types of use for the command box as demonstrated in the following examples.  Most simply, you can add to the data trace any arbitrary content.  For instance, entering \b line([100 200], [0 0]) \b0 will draw a line at 0 from x = 100 to x = 200.  You will note also that the handle to this line appeared in the larger box below the command box whence it can be copied by highlighting it and using the keyboard shortcut for copy.  The command box also has access to the \i data \i0 trace about to be rendered and can also generate \i events\i0  for the current trace (explained below).\par
+In addition, the current axis will always be set to the axis containing the data trace (hence why the line the example above appeared on the correct axis.  Using these variables it is possible to identify information about the trace such as \b max(data) \b0 or \b mean(data(200:300))\b0  will return data to the larger text box.  Any indexing into data is assumed to be in units of ms and is therefore not a direct index into the vector.  For example if the data is sampled at 5 samples per ms, the command \b mean(data(100:105))\b0  will return the mean value of the data trace from 100 to 105 ms (data points 500 to 525 of the vector).  Another useful function of the command box is in altering the data trace.  For instance, \b data(data < 100)) = nan;\b0  will not display any data points less than 100, or \b data = sgolayfilt(data, 3, 15);\b0  will filter the data with a Savitsky-Golay filter of order 3 and window size 15 (if you have the Signal Processing toolbox).  You can call any Matlab function from this box, as long as Matlab can find it (e.g. it is on a known Matlab path).  For instance \b mean(apHeight(data))\b0  will call the user-defined function \b apHeight \b0 to find the height of each action potential in the data trace and then return the mean value.  You can also define events (see below) from the command box with commands such as \b events.type = 'Stims'; events.traceName = 'myTrace'; events.data = 10:10:100;\b0  which will define a series of events at 10,20,30,...100 ms or simply \b events = 10:10:100\b0  which will do the same, but the events will not have a defined type for your future reference.\par
+\par
+\par
+\cf1\f0\fs28 Events\cf0\f1\fs20\par
+Event detection is available for a variety of data sets.  To access event detection, right-click in the data window and choose an event type from the \lquote Detect\rquote  submenu.  You may also detect events in only a subsection of the data trace by clicking once to set the starting point and then right-clicking at the ending point.  Current event types defined are the peak of action potentials recorded in the whole-cell configuration, action potentials recorded in the cell-attached configuration, extracellular units detected via a thresholded multiscale Teager energy operator, and PSC or PSP events.  The extracellular units are not clustered, such that all units from a given electrode are lumped into the same event set.  Events may also be defined from the axis command line, by right clicking on the data browser and selecting "Mark Event", or by placing a new event detection file in the "Event Detection" folder.  Once events are defined, they can be manipulated by right-clicking on the displayed events in the data browser window.  This menu allows you to remove an individual event, series of events, or all series of events.  It also allows you to save events to a mat file or to the base workspace for further analysis.  In addition, any files placed in the "Event Characterization" directory that are properly formatted (see 'Read Me.txt' in that directory for more information) will be displayed here as options to operate on the selected events.\par
+\par
+\cf1\f0\fs36 Default Command Files\par
+\cf0\f1\fs20 A text file contains the default commands that are loaded into the command box when the windows are created.  You may use these to add commands that you use frequently so as not to type them each time.  The commands will be read out of the text file a line at a time and will be available by pressing the up and down arrows while in their respective command box.  This file is in the following location:\par
+newScopeCommands.txt\par
+\par
+\cf1\f0\fs36 Menus\par
+\fs28 File\par
+\fs20 Print with Axes\par
+This command will print the currently displayed data traces along with all annotations and the axes on which they reside.\par
+Print with Scale Bars\par
+This command will print the same things as 'Print with Axes' but will not show the axes and will instead include a scale bar for the vertical and horizontal scales of the axes.\par
+Print Montage\par
+If you have many data traces on a current axis you can use this command to print the traces four to a page in a nonoverlapping way while still maintaining the same scaling (faster than printing each one sequentially using another print command).  The menu item 'Print Information...' in the 'File' menu allows specific information to be printed for each print out.\par
+Print Information...\par
+This command brings up a text box that will be evaluated for each trace printed via 'Print Montage'.  It should evaluate to a cell array.  Multiple lines of text can be achieved using multiple entries in the cell array.  Information available at time of evaluation includes the variables \b traceName \b0 and\b  channelName\b0 .  Also, information from user-added annotations will be printed if stored as follows:\par
+\b lineHandle = line([0 0], [1 1], 'displayName', traceName);\par
+setappdata(lineHandle, 'printData', 'Associated Information');\par
+\b0 where \b traceName \b0 is the name of the trace with which the annotation is associated and \b 'Associated Information'\b0  is any string that you would like to have printed.\par
+\par
+\fs28 Export\fs20\par
+With Axes\par
+This will place a copy of the currently displayed data traces along with all annotations and the axes on which they reside on the clipboard as a metafile.  In a Windows environment you can then paste directly into most applications.\par
+With Scale Bars\par
+This command will place the same metafile on the Windows clipboard as 'With Axes' except that a horizontal and vertical scale bar will be substituted for the axes.  In addition, an encapsulated postscript named 'temp.eps' will be placed in the temporary folder for your current user.  To get the path to the file, use the command:\par
+\b [getenv('homedrive') getenv('homepath') filesep 'temp.eps']\par
+\b0 The output formats can be changed to any of the many formats described in the documentation for the Matlab \b print\b0  command by editing lines 79 and 80 of the file exportWithScaleBars.m.  The advantage of the postscript file is that it is cross-platform safe and also generally has a higher resolution than the metafile found on the clipboard.  A VBA macro 'Corel Importer.txt' can be found in the Scope folder that imports the temp.eps file, regroups the lines into traces, and sets text and line sizes.  To use this in CorelDraw simply paste the text of the file into any 'Module' in 'GlobalMacros' (found under 'Tools'... 'Visual Basic'... 'Visual Basic Editor...' in the menus.  Then use the 'Tools'... 'Customization' menu and click on the 'Commands' subsection, select 'Macros' from the drop-down menu, find 'importTraces' in the list of macros and drag it onto the menu somewhere.\par
+Export Settings\par
+Here you can change the size of the drawing exported to EPS, whether the title of the Data Viewer is included in the file, and whether an offset is given when using the 'With Scale Bars' export function.\par
+\par
+\fs28 Display\fs20\par
+Traces\par
+Whether or not to display traces on the axes.\par
+Mean\par
+Whether to display a mean trace on the axes.\par
+Median\par
+Whether to display a median trace on the axes.\par
+Color Coded\par
+Check this menu item to change the data traces from black to an assortment of colors whose identity can be looked up by clicking on the 'Color Codes' menu that will appear.  Alternatively, place the cursor over the data trace of interest and look to the top of the window for that trace's identity.\par
+Aligned To...\par
+Check this menu item to align the data traces to action potentials in a specific time window.  For instance, if looking at recordings from a pair of neurons in which you caused one neuron to spike via a depolarizing current pulse from 100 to 110 ms you can look for latency jitter in postsynaptic responses in the other neuron by aligning to the window 100 to 120 ms.  This will align all traces to have the rising phase of the stimulated action potential occuring at 100 ms.\par
+Cursors\par
+Redrawing the cursor markers gets slow with large data sets.  Uncheck this menu item to turn off the cursors.  Information about cursor and data values will still be displayed on the right of the data viewer, but it will not be possible to use the menus that are normally displayed when right-clicking on the cursor markers.\par
+Events\par
+Uncheck this menu item to hide event markers.\par
+Event Marks...\par
+Click this command to change the way that events are marked on the data traces.\par
+Subtrace Reference Trace\par
+A reference trace will by default be displayed as a red trace on the data viewer for visual comparison.  However, checking this menu item will instead subtract the trace set as a reference from all other traces displayed.\par
+Blank Artifacts\par
+This item would blank stimulus artifacts from TTL lines if I could figure out where those are stored in the pClamp header.\par
+Artifact Names...\par
+Similarly, this item would display the name assigned to each active TTL line if that data is stored in pClamp files.\par
+Stim Triggered Overlay\par
+This item would overlay responses to a train of stimuli.\par
+Add Channel\par
+Add a channel to the data viewer.\par
+Remove Channel\par
+Remove the topmost channel from the data viewer.\par
+Autoupdate Channels\par
+If a data viewer axis is set to display a data trace that is not present in a given file the axis will be left blank.  However, if you check this menu item then that channel will be set to display some other channel that is present in the current file.\par
+Plot Browser\par
+This displays Matlab's built-in Plot Browser which can be useful for cleaning up a data viewer before exporting as it allows an easy way to change color and thickness of lines or to eliminate and add lines.  However, it also adds several menu items and drops the figure into plotedit mode thereby stopping all callbacks and corrupting the figure.\par
+\par
+\fs36 Cursor Click Menu\fs20\par
+\cf0\f1 Set Minimum/Maximum\par
+Set the minimum/maximum of the time axis to the position of the cursor (or of the fixed red cursor if it is set).\par
+Set as Reference\par
+Sets the trace whose name is displayed at the top of the data viewer (whichever data trace the cursor is currently closest to) to be a reference trace.  This trace will then be displayed in red as a reference as other traces are selected by the fileBrowser.  This trace can be subtracted from all currently displayed traces by choosing 'Subtract Reference Trace' from the 'Display' menu.\par
+Remove Reference\par
+Remove the reference trace for the current axis.\par
+\cf1\f0 Add Channel\par
+Add a channel to the data viewer.\par
+\cf0\f1 Remove Channel\par
+Remove the current channel from the data viewer.\par
+\fs28 Export\fs20\par
+Data to Workspace\par
+Export the data traces in the current axis to the workspace as a variable.  If the variable name already exists and is a vector of the same length, then the current data traces can be added to the existing variable so as to select favorite traces for later use.\par
+Time to Workspace\par
+Export a vector to the workspace that is the time base for the currently displayed channel.\par
+Names to Workspace\par
+Export the names of the currently displayed data traces to the workspace as a cell array.\par
+Data to Clipboard\par
+Export the data traces in the current axis to the clipboard in a tab-delimited format suited for pasting into most spreadsheet software.\par
+Time to Clipboard\par
+Export the time base for the currently displayed channel to the clipboard in a tab-delimited format suited for pasting into most spreadsheet software.\par
+Names to Clipboard\par
+Export names of the data traces in the current axis to the clipboard in a tab-delimited format to serve as column headers in a spreadsheet program.\par
+Mark Event...\par
+Add an event to a set of events (or a new set) that is at the position of the cursor (or of the fixed red cursor if it is set).\par
+Detect\par
+This menu contains submenus for all functions in the 'Event Detection' folder of the 'Scope' folder.  For further information see the 'Events' section above.\par
+??????\par
+Below the Detect menu will appear any functions that are placed in the 'Trace Characterization' subfolder of the 'Scope' folder.  The default functions allow determining basic qualities of action potentials.\par
+Fit\par
+This menu contains submenus for all funcions in the 'Fitting' subfolder of the 'Scope' folder. The default functions allow basic exponential, linear, and sinusoidal fits, but any others can be easily added.\par
+??????\par
+Below the Fit menu will appear any functions that are placed in the 'Experiment Characterization' subfolder of the 'Scope' folder.  However, until I figure out more about the pClamp header, these will remain mostly useless as they all require further information about experimental conditions creating the data traces.\par
+}
+ 

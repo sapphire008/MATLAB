@@ -1,0 +1,11 @@
+[1   2   3   4   5   6   7   8   9  10]
+"Stack"	60	"regexp(info.Filename, '(?<=.*\.).*(?=\..*\....$)', 'match', 'once')"
+"#"	30	"regexp(info.Filename, '(?<=.*\..*\.)\d*(?=\....$)', 'match', 'once')"
+"Size"	60	"[sprintf('%4.0f', info.Width) ' x ' sprintf('%4.0f', info.Height)]"
+"Frames"	30	"int32(info.NumImages)"
+"Zoom"	60	"sscanf(info.SourceProcessing, 'Zoom = %d')"
+"Objective"	60	"info.Objective"
+"X (µm)"	60	"info.origin(1)"
+"Y (µm)"	60	"info.origin(2)"
+"Z (µm)"	60	"info.origin(3)"
+"Laser %"	60	"sscanf(info.MiscInfo, 'Laser Fraction = %d')'"

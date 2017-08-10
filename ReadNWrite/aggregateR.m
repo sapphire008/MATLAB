@@ -59,6 +59,7 @@ aggregated_dataframe(1,:) = col_header([agby_col,data_col]);
 for a = 1:size(C,1)%row
     for b = 1:size(C,2)%column
         aggregated_dataframe{a+1,b} = NAMES{b}{C(a,b)};
+
     end
     for k = 1:length(data_col)
         aggregated_dataframe{a+1,(b+k)} = func_handle(cell2mat(dataframe(find(IC==a),data_col(k))));

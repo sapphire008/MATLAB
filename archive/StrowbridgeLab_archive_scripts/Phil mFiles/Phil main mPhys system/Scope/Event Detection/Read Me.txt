@@ -1,0 +1,29 @@
+You may add any event detection function that you like here and it will be incorporated into the scope menu if it meets the following criteria:
+1) When passed no inputs the function must return a character array that describes the type of events it generates.
+2) The function must take the two inputs (dataTrace, timePerPoint) where:
+	dataTrace is the values of a channel over time
+	timePerPoint is the time in ms per data point
+3) The funciton must return a vector of events times that are in units of points.
+
+Example:
+function eventTimes = highSpots(dataTrace, timePerPoint)
+% look for places where the dataTrace stays above 0 for 1 ms
+
+	if nargin == 0
+		% return the event type if no inputs given
+		eventTimes = 'High Spots';
+	else
+		% return events
+		pointsPerMs = (1/timePerPoint);
+
+		% create a logical array of trues
+		eventTimes = ones(length(dataTrace) - (pointsPerMs - 1), 1) == 1;
+
+		for i = 1:pointsPerMs % run through a ms worth of points
+		    eventTimes = eventTimes & (dataTrace((0:end - pointsPerMs) + i) > 0);
+		end
+
+		% only return the ones
+		eventTimes = find(eventTimes);
+	end
+	

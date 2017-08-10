@@ -1,0 +1,13 @@
+Functions in this folder are for characterizing episodes.  This menu appears in the right panel of the file browser and passes a cell array of file names to its functions representing all currently selected episodes.  The requirements of functions in this folder are only that the return a string if no inputs are passed (this string is their title in the menu) and that they do something else when passed the file names.  For example:
+
+
+function outText = displayFileNames(fileNames)
+
+    if ~nargin
+        outText = 'Names';
+        return
+    end
+       
+    for i = 1:numel(fileNames)
+	disp(fileNames{i});
+    end

@@ -1,0 +1,5 @@
+[1  2  3  4]
+"File Name"	100	"header.shortFileName"
+"Sample Period (µs)"	60	"header.timePerPoint"
+"Date"	30	"datestr(header.cellTime)"
+"Duration (ms)"	30	"header.sweepWindow"

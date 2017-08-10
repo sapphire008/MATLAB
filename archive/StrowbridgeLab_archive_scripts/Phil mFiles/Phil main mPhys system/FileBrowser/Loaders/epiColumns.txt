@@ -1,0 +1,12 @@
+[1   2   3   4   5   6   7   8  11]
+"S"	15	"sprintf('%2.0f', str2num(protocol.fileName(find(protocol.fileName == 'S', 1, 'last') + 1:find(protocol.fileName == 'E', 1, 'last') - 2)))"
+"E"	16	"sprintf('%3.0f', str2num(protocol.fileName(find(protocol.fileName == 'E', 1, 'last') + 1:find(protocol.fileName == '.', 1, 'last') - 1)))"
+"WC Time"	55	"sec2time(protocol.cellTime)"
+"Sweep"	40	"sprintf('%1.0f', protocol.sweepWindow)"
+"Drug"	37	"protocol.drug"
+"TTL1"	31	"ttlVal(protocol, 0)"
+"TTL2"	56	"ttlVal(protocol, 1)"
+"Drug Time"	31	"sec2time(protocol.drugTime)"
+"V Offset"	38	"vOffset(protocol, 1)"
+"PSPFreq"	60	"pspFreq(protocol)"
+"Step"	60	"ampStep(protocol, 1)"

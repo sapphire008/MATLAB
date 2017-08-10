@@ -1,0 +1,11 @@
+You may add any trace characterization function that you like here and it will be incorporated into the scope menu if it meets the following criteria:
+1) When passed no inputs the function must return a character array that describes the type of analysis it generates.
+2) The function must take the four inputs (dataTrace, timePerPoint, startTime, axisHandle) where:
+	dataTrace is the values of a channel over time
+	timePerPoint is the time in ms per data point
+    	startTime is the time in ms of the first point in dataTrace
+    	axisHandle is the graphics handle for the axis from which the data came
+3) The funciton may return a value that will be displayed.
+
+Example:
+See folder

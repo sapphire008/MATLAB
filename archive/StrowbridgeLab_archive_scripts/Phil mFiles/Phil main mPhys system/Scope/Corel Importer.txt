@@ -1,0 +1,171 @@
+Sub importTraces()
+    Dim impflt As ImportFilter
+    Dim allData As Shape ' used for rotating and ungrouping
+    Dim shapeGroup As ShapeRange ' used for grouping trace data and scale bars
+    Dim offsetLabels() As Shape ' used for grouping individual traces
+    Dim partIndex As Long, shapeIndex As Long, traceIndex As Long, numTraces As Long, numPerTrace As Long ' must define loop variables or they become variants and cause troubles when used as indices into objects
+    Dim xLabel As Shape, yLabel As Shape ' handles to the x and y labels for scale bars
+    Dim metaGroup() As Shape
+    Dim shapeCount As Long
+    
+    Const lineWidth As Double = 0.2 * 0.0393700787 ' mm * inches_per_mm
+    Const scaleBarTextSize = 6
+    Const offsetTextSize = 5
+    Const asterikSize = 14
+
+    ' import the hpgl file
+        Set impflt = ActiveLayer.ImportEx(Environ("HOMEDRIVE") + Environ("HOMEPATH") + "\temp.eps", cdrPSInterpreted)
+        impflt.Finish
+    
+    ' place the image above the page and rotate it
+        Set allData = ActiveShape
+        allData.Move 0, 0
+
+    ReDim metaGroup(100)
+    shapeCount = 0
+  ' On Error GoTo whoops
+
+    ' make sure the document units are millimeters
+        ActiveDocument.Rulers.HUnits = cdrMillimeter
+        ActiveDocument.Rulers.VUnits = cdrMillimeter
+    
+    ' group the full traces and the scale bars
+        Set shapeGroup = allData.UngroupEx
+        
+        shapeGroup(1).Delete
+
+        traceStart = 6 ' last member of shapeGroup that belongs to this axis
+        axisStart = 2
+        For shapeIndex = 2 To shapeGroup.Count
+            If shapeGroup(shapeIndex).Type = cdrTextShape Then
+                ' we are at the end of the trace so set its properties and group it up
+                ' add the offsets
+                    whatText = shapeGroup(shapeIndex).Text.Range(0, shapeGroup(shapeIndex).Text.Range(0, 100).Characters.Count - 1).Characters.All
+                    If Len(whatText) > 1 Or Left(whatText, 1) <> " " Then
+                        Set yLabel = ActiveLayer.CreateParagraphText(shapeGroup(shapeIndex).PositionX - shapeGroup(shapeIndex).OriginalWidth * 5, shapeGroup(shapeIndex).PositionY + 0.3 - shapeGroup(shapeIndex).OriginalHeight / 2, shapeGroup(shapeIndex).PositionX + shapeGroup(shapeIndex).OriginalWidth, shapeGroup(shapeIndex).PositionY - 0.3 - shapeGroup(shapeIndex).OriginalHeight / 2, Text:=whatText + "  ", Size:=offsetTextSize, Alignment:=cdrRightAlignment)
+                        yLabel.Text.Frame.VerticalAlignment = cdrCenterJustify
+                    End If
+                    shapeGroup(shapeIndex).Delete
+                
+                    Set metaGroup(shapeCount) = yLabel
+                    shapeCount = shapeCount + 1
+                    
+                    ActiveDocument.ClearSelection
+                    
+                ' look for stimulus markers
+                    markersDone = shapeIndex - 1
+                    Do While shapeGroup(markersDone).Curve.Closed And shapeGroup(markersDone).Curve.Nodes.Count = 3
+                        markersDone = markersDone - 1
+                    Loop
+                        
+                ' add the trace data
+                    For partIndex = traceStart To markersDone
+                        shapeGroup(partIndex).Outline.SetProperties Width:=lineWidth, ScaleWithShape:=cdrFalse, LineJoin:=cdrOutlineMiterLineJoin, MiterLimit:=90
+                        'shapeGroup(partIndex).Outline.Color.BWAssign False
+                        shapeGroup(partIndex).Curve.Closed = False
+                        ActiveDocument.AddToSelection shapeGroup(partIndex)
+                    Next partIndex
+                
+                ' group it up
+                    Set xLabel = ActiveSelection.Group
+                    
+                    Set metaGroup(shapeCount) = xLabel
+                    shapeCount = shapeCount + 1
+                    
+                ' group in the label
+                    If Len(whatText) > 1 Or Left(whatText, 1) <> " " Then
+                        If shapeIndex - 1 > markersDone Then
+                            ReDim offsetLabels(1 To shapeIndex - markersDone - 1)
+                            For partIndex = markersDone + 1 To shapeIndex - 1
+                                Set offsetLabels(partIndex - markersDone) = ActiveLayer.CreateParagraphText(shapeGroup(partIndex).PositionX - shapeGroup(partIndex).OriginalWidth, shapeGroup(partIndex).PositionY - 0.01, shapeGroup(partIndex).PositionX + 2 * shapeGroup(partIndex).OriginalWidth, shapeGroup(partIndex).PositionY - shapeGroup(partIndex).OriginalHeight - 0.61, Text:="*", Size:=asterikSize, Alignment:=cdrCenterAlignment)
+                                shapeGroup(partIndex).Delete
+                            Next partIndex
+                        End If
+                        ActiveDocument.CreateSelection xLabel, yLabel
+                        For partIndex = 1 To shapeIndex - markersDone - 1
+                            ActiveDocument.AddToSelection offsetLabels(partIndex)
+                        Next partIndex
+
+                     '   Set metaGroup(shapeCount) = ActiveSelection.Group
+                     '   shapeCount = shapeCount + 1
+                    Else
+                        If shapeIndex - 1 > markersDone Then
+                            ReDim offsetLabels(1 To shapeIndex - markersDone - 1)
+                            For partIndex = markersDone + 1 To shapeIndex - 1
+                                Set offsetLabels(partIndex - markersDone) = ActiveLayer.CreateParagraphText(shapeGroup(partIndex).PositionX - shapeGroup(partIndex).OriginalWidth, shapeGroup(partIndex).PositionY - 0.01, shapeGroup(partIndex).PositionX + 2 * shapeGroup(partIndex).OriginalWidth, shapeGroup(partIndex).PositionY - shapeGroup(partIndex).OriginalHeight - 0.61, Text:="*", Size:=asterikSize, Alignment:=cdrCenterAlignment)
+                                shapeGroup(partIndex).Delete
+                            Next partIndex
+                        End If
+                        ActiveDocument.ClearSelection
+                        For partIndex = 1 To shapeIndex - markersDone - 1
+                            ActiveDocument.AddToSelection offsetLabels(partIndex)
+                        Next partIndex
+
+                       ' Set metaGroup(shapeCount) = ActiveSelection.Group
+                       ' shapeCount = shapeCount + 1
+                    End If
+                    traceStart = shapeIndex + 1
+                        
+                    If shapeGroup.Count > shapeIndex + 1 Then
+                        If shapeGroup(shapeIndex + 2).Type = cdrTextShape Then
+                            If shapeGroup(shapeIndex + 2).Text.Range(0, shapeGroup(shapeIndex + 2).Text.Range(0, 100).Characters.Count - 1).Characters.Last = "s" Then
+                                ' we are at the end of an axis
+                                For i = 0 To 3
+                                    If shapeGroup(axisStart + i).Outline.Color.Type = 0 Then
+                                        shapeGroup(axisStart + i).Delete
+                                    ElseIf shapeGroup(axisStart + i).Outline.Color.Gray = 255 Then
+                                        shapeGroup(axisStart + i).Delete
+                                    End If
+                                Next i
+                                
+                                ' group up the scale bars
+                                    
+                                ' set the line properties
+                                    shapeGroup(shapeIndex + 3).Outline.SetProperties Width:=lineWidth, ScaleWithShape:=cdrFalse
+                                    shapeGroup(shapeIndex + 1).Outline.SetProperties Width:=lineWidth, ScaleWithShape:=cdrFalse
+                                    shapeGroup(shapeIndex + 3).Outline.Color.BWAssign False
+                                    shapeGroup(shapeIndex + 1).Outline.Color.BWAssign False
+                                    
+                                ' generate the labels
+                                    Set xLabel = ActiveLayer.CreateParagraphText(shapeGroup(shapeIndex + 1).PositionX - 0.5 * shapeGroup(shapeIndex + 1).OriginalWidth, shapeGroup(shapeIndex + 1).PositionY - 0.01, shapeGroup(shapeIndex + 1).PositionX + 1.5 * shapeGroup(shapeIndex + 1).OriginalWidth, shapeGroup(shapeIndex + 1).PositionY - shapeGroup(shapeIndex + 2).OriginalHeight - 0.61, Text:=shapeGroup(shapeIndex + 2).Text.Range(0, shapeGroup(shapeIndex + 2).Text.Range(0, 100).Characters.Count - 1).Characters.All, Size:=scaleBarTextSize, Alignment:=cdrCenterAlignment)
+                                    Set yLabel = ActiveLayer.CreateParagraphText(shapeGroup(shapeIndex + 3).PositionX + 0.01, shapeGroup(shapeIndex + 3).PositionY + shapeGroup(shapeIndex + 3).OriginalHeight / 2, shapeGroup(shapeIndex + 3).PositionX + 1.8, shapeGroup(shapeIndex + 3).PositionY - 3 * shapeGroup(shapeIndex + 3).OriginalHeight / 2, Text:="  " + shapeGroup(shapeIndex + 4).Text.Range(0, shapeGroup(shapeIndex + 4).Text.Range(0, 100).Characters.Count - 1).Characters.All, Size:=scaleBarTextSize, Alignment:=cdrLeftAlignment)
+                                    yLabel.Text.Frame.VerticalAlignment = cdrCenterJustify
+                
+                                ' group the scale bars and labels
+                                    ActiveDocument.CreateSelection shapeGroup(shapeIndex + 3), shapeGroup(shapeIndex + 1), xLabel, yLabel
+                                    Set metaGroup(shapeCount) = ActiveSelection.Group
+                                    shapeCount = shapeCount + 1
+                                    
+                                ' delete the useless texts
+                                    shapeGroup(shapeIndex + 2).Delete
+                                    shapeGroup(shapeIndex + 4).Delete
+                                    
+                                axisStart = traceStart + 4
+                                traceStart = axisStart + 4
+                                shapeIndex = traceStart
+                            End If
+                        End If
+                    End If
+            End If
+        Next shapeIndex
+        
+        On Error Resume Next ' necessary because there is no shapeGroup(shapeGroup.Count - 1) is it wasn't sent since it will have been deleted above when the scale bars were created
+        
+        ' set the size of the location text if it is present
+        If shapeGroup(shapeGroup.Count).Text.Find(":\", True) > -1 Then
+            Set metaGroup(shapeCount) = ActiveLayer.CreateParagraphText(0, 3, 8.5, 3.2, Text:=shapeGroup(shapeGroup.Count).Text.Range(0, shapeGroup(shapeGroup.Count).Text.Range(0, 100).Characters.Count - 1).Characters.All, Size:=12, Alignment:=cdrCenterAlignment)
+            shapeCount = shapeCount + 1
+            shapeGroup(shapeGroup.Count).Delete
+        End If
+        
+        ActiveDocument.CreateSelection metaGroup(0)
+        For i = 1 To shapeCount
+            ActiveDocument.AddToSelection metaGroup(i)
+        Next i
+        
+        Exit Sub
+    
+whoops:
+    MsgBox ("File" + Environ("HOMEDRIVE") + Environ("HOMEPATH") + "\temp.eps" + " does not appear to be a Matlab newScope export.")
+    
+End Sub

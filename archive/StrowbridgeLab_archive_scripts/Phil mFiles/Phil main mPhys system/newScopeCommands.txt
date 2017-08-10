@@ -1,0 +1,5 @@
+events.type = 'Stimuli'; events.traceName = protocol.fileName; stims = findStims(protocol); events.data = stims{1};
+data = movingAverage(data, 5);
+data = sgolayfilt(data, 13, 3);
+data = showFFT(data, 1e6/protocol.timePerPoint);
+data = notchFilter(data, 1e6/protocol.timePerPoint, nan(2,1));

@@ -32,9 +32,16 @@ function R = eph_firing_rate(Vs, ts, method, varargin)
 % Interfaces. Neural Network. 22(9): 1235-1246 (2009).
 
 % Detect spikes first
-[~, t_spk, ~] = eph_count_spikes(Vs, ts, 'MINPEAKHEIGHT',-25);
-sprintf('Detected %d spikes\n', length(t_spk));
-if isnumeric(t_spk), t_spk = {t_spk}; end
+if isnumeric(Vs)
+    [~, t_spk, ~] = eph_count_spikes(Vs, ts, 'MINPEAKHEIGHT',-25);
+elseif iscell(Vs)
+    func = Vs{1};
+    params = Vs(3:end);
+    Vs = Vs{2};
+    [~,t_spk,~] = func(Vs, ts, params{:});
+end
+% assignin('base', 't_spk', t_spk);
+fprintf('Detected %d spikes\n', length(t_spk));
 t_window = [0, eph_ind2time(size(Vs,1),ts)];
 
 % Set moving kernel
@@ -48,10 +55,8 @@ end
 
 % Estimate firing rate
 R = zeros(size(Vs));
-for s = 1:length(t_spk)
-    % Make Dirac Delta function based on spike time
-    R(:,s) = eph_dirac(ts,t_window,t_spk{s},1,true);
-end
+% Make Dirac Delta function based on spike time
+R = eph_dirac(ts,t_window,t_spk,1,true);
 
 % Switch between method selection of convolution functions
 switch method
@@ -71,13 +76,7 @@ end
 switch methodType
     case 'ks' % kernel smoothing (stationary)
         % Convolve to get the firing rate
-        if iscell(w)
-            for s = 1:size(R,2)
-                R(:,s) = conv(R(:,s), w{s}, 'same');
-            end
-        else % numeric
-            R = convn(R, w, 'same');
-        end
+        R = convn(R, w, 'same');
     case 'ksa' %adaptive kernel smoothing: maybe too slow. Drop
         error('This method is not implemented, concerning about speed');
 end

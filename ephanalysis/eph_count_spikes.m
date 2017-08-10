@@ -1,7 +1,7 @@
 function [num_spikes, spike_time, spike_heights] = eph_count_spikes(Vs, ts, varargin)
 % Count the number of spikes given a time series
 %
-% [num_spikes, spike_time, spike_heights] = detect_spikes(Vs, option1, val1, ...)
+% [num_spikes, spike_time, spike_heights] = detect_spikes(Vs, ts, option1, val1, ...)
 %
 % Inputs:
 %   Vs: voltage time series, N x M matrix with N time points and M trials 
@@ -9,7 +9,7 @@ function [num_spikes, spike_time, spike_heights] = eph_count_spikes(Vs, ts, vara
 %   ts: sampling rate [seconds]
 %
 %   Optional criteria to select spikes, following arguments of FINDPEAKS 
-%   function. Options include the following: 
+%   function. Relevant options include the following: 
 %           'MINPEAKHEIGHT', MPH: spikes need to be above MPH
 %           'MINPEAKDISTANCE, MPD: neighboring spikes need to be MPD apart.
 %                            Note that this is in seconds, instead of
@@ -30,13 +30,14 @@ function [num_spikes, spike_time, spike_heights] = eph_count_spikes(Vs, ts, vara
 % Depends on EPH_IND2TIME, FINDPEAKS
 
 if nargin<2 || isempty(varargin)
-    varargin = {'MINPEAKHEIGHT', -10, 'MINPEAKDISTANCE',0.1};
-else
-    IND = find(ismember(varargin(1:2:end), 'MINPEAKDISTANCE'),1);
-    if ~isempty(IND)
-        varargin{IND*2} = eph_time2ind(varargin{IND*2}, ts);
-    end
+    varargin = {'MinPeakHeight', -20, 'MinPeakDistance',0.1};
 end
+IND = find(ismember(varargin(1:2:end), 'MinPeakDistance'),1);
+if ~isempty(IND)
+    varargin{IND*2} = eph_time2ind(varargin{IND*2}, ts);
+end
+
+%disp(varargin)
 % find spikes
 numTrials = size(Vs,2);
 spike_heights = cell(1,numTrials);
@@ -56,3 +57,4 @@ if numel(spike_time) == 1
     spike_heights = spike_heights{1};
 end
 end
+

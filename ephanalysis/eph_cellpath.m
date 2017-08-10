@@ -1,5 +1,8 @@
-function data_folder = eph_cellpath(cell_label, episode, year_prefix)
+function data_folder = eph_cellpath(cell_label, episode, year_prefix, no_year)
 % infer full path of the cell given cell label (without file extension)
+%
+% data_folder = eph_cellpath(cell_label, episode, year_prefix, no_year)
+%
 % e.g.
 % data_folder = eph_cellpath('Neocortex A.09Sep15', 'S1.E13')
 % or
@@ -10,10 +13,11 @@ function data_folder = eph_cellpath(cell_label, episode, year_prefix)
 % Parse necessary information about date
 %cell_label = 'Neocortex A.09Sep15';
 if strcmpi(cell_label(end-3:end), '.dat')
-  cell_label = strrep(cell_label, '.dat', '')
+  cell_label = strrep(cell_label, '.dat', '');
 end
-if nargin<2, episode = '.%s'; end
-if nargin<3, year_prefix = '20'; % be okay in this century
+if nargin<2 || isempty(episode), episode = '.%s'; end
+if nargin<3 || isempty(year_prefix), year_prefix = '20'; end % be okay in this century
+if nargin<4, no_year = false; end
 if ~strcmpi(episode(1), '.'), episode = ['.', episode]; end
 dinfo = regexp(cell_label, '([\w\s]+).(\d+)([a-z_A-Z]+)(\d+).S(\d+).E(\d+)','tokens');
 if isempty(dinfo)
@@ -36,5 +40,9 @@ month_dict = struct('Jan','01.January','Feb','02.February','Mar','03.March',...
 month_dir = month_dict.(dinfo{3});
 % data folder
 data_folder = sprintf('Data %d %s %s', str2num(dinfo{2}), dinfo{3}, year_dir);
-data_folder = fullfile(year_dir, month_dir, data_folder, [cell_label,episode,'.dat']);
+if no_year
+    data_folder = fullfile(month_dir, data_folder, [cell_label,episode,'.dat']);
+else
+    data_folder = fullfile(year_dir, month_dir, data_folder, [cell_label,episode,'.dat']);
+end
 end

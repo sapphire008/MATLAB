@@ -1,0 +1,39 @@
+You may add any event characterization function that you like here and it will be incorporated into the scope menu if it meets the following criteria:
+1) When passed no inputs the function must return a character array that describes the type of characterization it generates.
+2) The function must take the six inputs (uimenuHandle, uimenuDetails, eventHandle, axisHandle, eventIndex, displayType) where:
+	uimenuHandle is the graphics handle for the uimenu
+	uimenuDetails is the callback event structure
+	eventHandle is the line handle of the event that was clicked
+	axisHandle is the axis handle for the events
+	eventIndex is the index of the event set being clicked
+	displayType is 0 or 1 if the eventHandle is a single event or a series of events respectively
+3) The funciton may return a single value.
+4) The event times themselves are stored in a structure that can be accessed with:
+	events = getappdata(axisHandle, 'events');
+and are a structure array with three fields:
+	data - the times (in ms) of events
+	type - a string indicating the event type
+	traceName - a string containing the name of the data trace from which the events came
+
+Example 1:
+function closePercentage = percentClose(varargin)
+% find the percent of events that occur within 1 ms of each other
+	events = getappdata(varargin{4}, 'events');
+
+	closePercentage = sum(diff(events(varargin{5}).data) < 10) / numel(eventsStruct(whichSet).data) * 100;
+    
+
+Example 2
+function coincidentPercentage = percentCoincident(varargin)
+% find the percent of events that have another event within 1 ms of them in another event set
+	events = getappdata(varargin{4}, 'events');
+
+	% ask with what other events set to compare
+	selection = listdlg({events.type}, 'Select events set with which to compare')
+    
+	coincidentEvents = 0;
+	for i = events(varargin{5}).data
+		coincidentEvents = coincidentEvents + sum(events(selection).data > i - 5 & events(selection).data < i + 5);
+	end
+    
+	coincidentPercentage = coincidentEvents / numel(events(whichSet).data) * 100;

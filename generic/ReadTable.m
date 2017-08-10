@@ -65,6 +65,8 @@ switch flag.delimiter
         valid_delimiter = regexp(lines_cell{1},',');
     case ' \b\t'
         valid_delimiter = regexp(lines_cell{1},'\s');
+    otherwise
+        valid_delimiter = [];
 end
 if isempty(valid_delimiter)
     error('Delimiter is incorrect!\nPerhaps use ...''delimiter'','' \b\t'' argument');

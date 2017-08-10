@@ -29,11 +29,11 @@ if nargin<1
         case 'back2rest'
             RinStep = [300,-50]; % input resistance test ms, mA
             RinBetween = [300, 0]; % Duration in-between input resistance test, ms, mA
-            Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles); 
+            Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles);
         case 'excitaiblity2'
             RinStep = [300, 100];
             RinBetween = [300, 0];
-            Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles); 
+            Steps = Back2Rrest(HoldingCurrentBefore,HoldingCurrentMiddle, RinStep, RinBetween, DepoStep,Baseline,numcycles);
             % add another baseline
             Steps = [{[1000, 0]}, Steps];
             Steps{10}(2) = 0;

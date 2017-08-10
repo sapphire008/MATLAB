@@ -1,4 +1,4 @@
-function saveasfigure(h, fname, fmt, varargin)
+function saveasfigure(h, fname, fmt, borderless, varargin)
 % This function reproduces the MATLAB's 'Save as' botton in the figure
 % window
 % h: the figure handle
@@ -11,9 +11,12 @@ function saveasfigure(h, fname, fmt, varargin)
 %            to the created .gif image
 %   'quality': for .jpeg family images only, specifiying compression level
 %              of jpeg image. Default 90. 
+%   'borderless': [true|false]. If true, remove border of the figure before
+%              saving. Deafult false. (Not Implemented yet).
 
 % parse flags
-flags = InspectVarargin(varargin, {'index',1}, {'quality',90});
+flags = InspectVarargin(varargin, {'index',1}, {'quality',90}, ...
+    {'borderless', false});
 
 [PATH, NAME, EXT] = fileparts(fname);
 % Infer format from extension if fmt not provided
@@ -106,9 +109,12 @@ switch lower(fmt)
         fname = [fname, EXT];
         axs = findobj(h,'type','axes');
         for n = 1:length(axs)
-            axs(n).XTickMode = 'manual';
-            axs(n).YTickMode = 'manual';
-            axs(n).ZTickMode = 'manual';
+            set(axs(n), 'XTickMode', 'manual');
+            set(axs(n), 'YTickMode', 'manual');
+            set(axs(n), 'ZTickMode', 'manual');
+            %axs(n).XTickMode = 'manual';
+            %axs(n).YTickMode = 'manual';
+            %axs(n).ZTickMode = 'manual';
         end
         % Make sure the size of the saved figure is as displayed
         set(h, 'PaperPositionMode','auto');

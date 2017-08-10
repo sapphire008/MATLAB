@@ -1,0 +1,7 @@
+[1  2  3  4  5]
+"Sample Period (µs)"	60	"header.timePerPoint"
+"Date"	30	"datestr(header.fileDate)"
+"Time"	60	"datestr(header.fileDate, 'HH:MM:SS')"
+"Episodes"	30	"header.numEpisodes"
+"Duration (ms)"	30	"header.sweepWindow"
+"Duration"	30	"sec2time(header.sweepWindow)"

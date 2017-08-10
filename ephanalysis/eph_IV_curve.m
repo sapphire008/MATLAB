@@ -7,7 +7,7 @@ if nargin<2, xcenter = -65; end
 if nargin<3, ycenter = 0; end
 
 plot(Vs, Is, '.');
-draw_cartesian_axes(gca, xcenter, ycenter);
+eph_draw_cartesian_axes(gca, xcenter, ycenter);
 xlabel('Voltage (mV)', 'color', 'k');
 ylabel('Current (pA)', 'color', 'k');
 end

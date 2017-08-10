@@ -65,13 +65,14 @@ channelDict = struct(...
     'VoltADC1','VoltA','VoltADC3','VoltB','VoltADC5','VoltC','VoltADC7','VoltD',...
     'CurADC0','CurA','CurADC2','CurB','CurADC4','CurC','CurADC6', 'CurD',...
     'StimulusAmpA', 'StimulusA','StimulusAmpB','StimulusB','StimulusAmpC','StimulusC','StimulusAmpD','StimulusD',...
-    'StimulusAmpA9','StimulusA','StimulusAmpB9','StimulusB','StimulusAmpC9', 'StimulusAmpC', 'StimulusAmpD9','StimulusAmpD');
+    'StimulusAmpA9','StimulusA','StimulusAmpB9','StimulusB','StimulusAmpC9', 'StimulusC', 'StimulusAmpD9','StimulusD');
 info.numChannels = 4; % A, B, C, and D
 
 % open file, assuming the file is good, as checked in the main function
 fid = fopen(filename, 'r');
 fseek(fid, 6, 'bof'); % set to file position to 6 relative to the beginning of the file
 info.infoBytes = fread(fid,1,'int32'); %size of header
+zData.protocol.readDataFrom = filename;
 zData.protocol.sweepWindow = fread(fid,1,'float32'); % in msec per episode
 zData.protocol.msPerPoint = fread(fid,1,'float32') / 1000; %in microseconds per channel
 info.numPoints = fread(fid, 1, 'int32');

@@ -1,0 +1,33 @@
+You may add any experiment characterization function that you like here and it will be incorporated into the scope menu if it meets the following criteria:
+1) The function must return a character array that describes the type of characterization it performs when passed no inputs.
+2) The function must take the four inputs (traceData, protocol, ampNumber, axisHandle) where:
+    traceData is the values of the channel over time
+    protocol is a structure containing data about the experiment
+    ampNumber is the amplifier number on which the analysis is to be performed
+    axisHandle is the graphics handle for the axis from which the data came
+3) The funciton may return a character array that will be displayed.
+
+Example:
+function stringData = fitLine(yData, timePerPoint, startingTime, axisHandle)
+% fits line to data
+
+    if ~nargin
+        slope = 'Line';
+        return
+    end
+
+    % check for sufficient input
+    if length(yData) < 2
+        stringData = '';
+        return
+    end
+
+    xData = startingTime + (0:timePerPoint:(length(yData) - 1) * timePerPoint)';    
+    values = polyfit(xData, yData, 1);
+
+    % draw a line to show the fit
+    % the button down function pulls a graphics handle from the axis userData that allows writing to the corresponding text box on the right of a scope
+    line('parent', axisHandle, 'color', [1 0 0], 'buttondownfcn', ['set(get(get(gcbo, ''parent''), ''userdata''), ''string'', ''Slope = ' sprintf('%4.1f', values(1)) ', intercept = ' sprintf('%4.1f', values(1)) ''')'],  'xData', xData, 'ydata', polyval(values, xData));
+
+    % return some text
+    stringData = ['Slope = ' sprintf('%0.0f', values(1))];

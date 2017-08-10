@@ -1,10 +1,10 @@
-function [P,N,D,B] = SearchFiles(Path,Target,sortby)
+function [P,N,D,B] = SearchFiles(Path,Target,sortby,ignoredot)
 % Routine to search for files with certain characteristic names. It does
 % not search recursively. However, the function can search under multiple
 % layers of sub-directories, when specifying Target variable in the format
 % *match1*/*match2*. Regular expression (regexp) is allowed.
 %
-% [P, N, D, B] = SearchFiles(Path, Target, sortby)
+% [P, N, D, B] = SearchFiles(Path, Target, sortby, ignoredot)
 %
 % Inputs:
 %   Path: path to search files in
@@ -13,6 +13,7 @@ function [P,N,D,B] = SearchFiles(Path,Target,sortby)
 %   sortby: choose to sort the list of files by name ('N'[default]), 
 %           date ('D'/'d'), or byte size ('B'/'b'). Capital letter for
 %           ascending; lowercase letter for descending.
+%   ignoredot: ignore '.' and '..' directories. Default true
 %
 % Outputs:
 %   P: cellstr of full paths of files found
@@ -24,6 +25,8 @@ function [P,N,D,B] = SearchFiles(Path,Target,sortby)
 if nargin<1, help(SearchFiles); end
 % parse optional inputs
 if nargin<3, sortby = 'N'; end
+% ignore . and ..
+if nargin<4 || isempty(ignoredot), ignoredot = true; end
 
 % get a list of target directories and subdirectories
 original_targets = regexp(Target,'/','split');
@@ -45,7 +48,7 @@ P = cellstr(Path);
 for t = 1:length(targets)
     try
         % get the list of directories
-        [P,N,D,B] = cellfun(@dir_tree,P,repmat(targets(t),size(P)),'un',0);
+        [P,N,D,B] = cellfun(@(x) dir_tree(x, targets{t}, ignoredot),P,'un',0);
         % unwrap the directories
         [P, N, D, B] = tupleApply(@unwrap_cell, P, N, D, B);
         if counter(t)>0
@@ -75,8 +78,12 @@ switch lower(sortby(1)) % for flexibility of input
 end
 end
 
-function [V,N,D,B] = dir_tree(P,T)
+function [V,N,D,B] = dir_tree(P,T, ignoredot)
 X = dir(fullfile(P,T));
+if ignoredot
+    ind = strcmpi({X.name}, '..') | strcmpi({X.name}, '.');
+    X = X(~ind);
+end
 if isempty(X)
     [V, N, D, B] = tupleApply(@(x) x, {}, {}, {}, {});
     return;

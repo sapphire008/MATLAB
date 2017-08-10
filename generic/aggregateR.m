@@ -1,6 +1,6 @@
-function aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,aggregate_only)
+function aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,aggregate_only, varargin)
 % mimicking R function aggregate.
-% aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,aggregate_only)
+% aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,aggregate_only, ...)
 % Inputs:
 %   dataframe: cell array of data. Assuming first row is the column header
 %   aggregate_by: cell array of column header names to aggregate by
@@ -9,6 +9,7 @@ function aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,ag
 %                   these columns in the output. Default aggregate all the
 %                   columns in dataframe that are not specified
 %                   aggregate_by.
+% Additional inputs at the end for additional arguments of func_handle
 % Output:
 %   aggregated_dataframe: summarized cell array
 %
@@ -21,8 +22,17 @@ function aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,ag
 % separate data from column header
 col_header = dataframe(1,:);
 dataframe = dataframe(2:end,:);
+% Check if column header has NaN in them
+if any(cell2mat(cellfun(@(x) all(isnan(x)), col_header, 'un',0)))
+   error('Some column header has NaN');
+end
 % parse aggregation factor column number
+factor_col = cellfun(@(x) find(ismember(col_header,x),1),aggregate_by, 'un',0);
+if any(cellfun(@isempty, factor_col))
+    error('Check spelling of aggregate_by argument');
+end
 agby_col = cellfun(@(x) find(ismember(col_header,x),1),aggregate_by);
+
 if any(agby_col == 0)
     error('The following column header(s) are not found%s',char(col_header(agby_col(agby_col ==0))));
 end
@@ -38,7 +48,12 @@ if nargin<4 || isempty(aggregate_only)
     % potentially a string
     data_col(cellfun(@ischar,dataframe(1,:))) = [];
 else
-    data_col = cellfun(@(x) find(ismember(col_header,x),1),aggregate_only);
+    data_col = cellfun(@(x) find(ismember(col_header,x),1),aggregate_only, 'un',0);
+    if any(cellfun(@isempty, data_col))
+        error('Check spelling of aggregate_only argument')
+    else
+        data_col = cell2mat(data_col);
+    end
 end
 %parse each factors specified
 %F relabels the factos into numbers
@@ -66,7 +81,11 @@ for a = 1:size(C,1)%row
         end
     end
     for k = 1:length(data_col)
-        aggregated_dataframe{a+1,(b+k)} = func_handle(cell2mat(dataframe(find(IC==a),data_col(k))));
+        tmp_dataframe = dataframe(find(IC==a),data_col(k));
+        if ~iscellstr(tmp_dataframe)
+            tmp_dataframe = cell2mat(tmp_dataframe);
+        end
+        aggregated_dataframe{a+1,(b+k)} = func_handle(tmp_dataframe, varargin{:});
     end
 end
 end
