@@ -1,6 +1,6 @@
 function Zs = eph_moving_apply_func(Vs, ts, window, func, skip)
 % Apply a function to a moving window on Vs
-% [Vs, ind] = eph_window(Vs, ts, Window, start_time)
+% Zs = eph_moving_apply_func(Vs, ts, window, func, skip)
 %
 % Inputs:
 %   Vs: voltage time series, N x 1 matrix with N time points in units 
@@ -8,7 +8,7 @@ function Zs = eph_moving_apply_func(Vs, ts, window, func, skip)
 %   ts: sampling rate [seconds]
 %   window: moving temporal window size [seconds]
 %   func: function to apply unto each moving window
-%   overlap: time point [seconds] to skip between moving windows. Use 0 for
+%   skip: time point [seconds] to skip between moving windows. Use 0 for
 %            non-overlapping window, or NaN for continuous. Accepts 
 %            negative numbers for points to overlap, and positive numbers 
 %            for points to skip.

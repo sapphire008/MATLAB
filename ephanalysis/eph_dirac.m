@@ -1,4 +1,4 @@
-function delta = eph_dirac(ts,dur,phi,h,collapse)
+function delta = eph_dirac(ts,dur,phi,h,collapse,w)
 % Make (Summed) Dirac Delta function
 %
 % delta = eph_dirac(ts, dur, phi, h, collapse)
@@ -18,13 +18,14 @@ function delta = eph_dirac(ts,dur,phi,h,collapse)
 %      Deafult heigth is 1.
 %   collapse: [true|false] collaspe Dirac function with different phase
 %      shifts by adding across phi (columns). Default is true.
+%   w: width of each dirac function [seconds]. Default is 0.
 %
 % Output:
 %   delta: if not collpased, returns a matrix with row corresponding to 
 %          time and columns corresponding to different phi; if collapsed, 
 %          only a column vector is returned.
 %
-% Example usage: eph_dirac(1, [-5,5],[-2,-3,1,3],1,true). 
+% Example usage: eph_dirac(1, [-5,5],[-2,-3,1,3],1,true,ts). 
 % Returns a column vector [0;0;1;1;0;0;1;0;1;0;0];
 % 
 % Depends on EPH_TIM2IND
@@ -36,17 +37,20 @@ if numel(dur)<2, dur = [-dur, dur]; end
 if nargin<3 || isempty(phi), phi = 0; end
 if nargin<4 || isempty(h), h = 1; end
 if nargin<5 || isempty(collapse), collapse = true; end
+if nargin<6 || isempty(w), w = 0; end
 
 % Make Dirac Delta function
 phi_ind = eph_time2ind(phi,ts,dur(1)); % convert to indices
 if collapse
     delta = zeros(1+diff(eph_time2ind(dur,ts)),1);
-    delta(phi_ind) = h;
+    for p = 1:length(phi)
+        delta(phi_ind(p)+eph_time2ind(0:ts:w, ts)) = h;
+    end
 else
     % initialize matrix
     delta = zeros(diff(eph_time2ind(dur,ts)), numel(phi)); 
     for p = 1:length(phi)% for loop faster than sub2ind
-        delta(phi_ind(p), p) = h;
+        delta(phi_ind(p)+eph_time2ind(0:ts:w, ts), p) = h;
     end
 end
 end

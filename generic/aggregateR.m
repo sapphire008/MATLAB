@@ -68,7 +68,7 @@ for agby = 1:length(aggregate_by)
     [NAMES{agby},~,F(:,agby)] = unique(current_factor);
 end
 % find each unique combinations of factors
-[C,~,IC] = unique(F,'rows');%C will index the final result
+[C,~,IC] = unique(F,'rows', 'stable');%C will index the final result
 %start the output dataframe
 aggregated_dataframe = cell(size(C,1)+1,length(agby_col)+length(data_col));
 aggregated_dataframe(1,:) = col_header([agby_col,data_col]);

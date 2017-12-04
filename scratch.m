@@ -1,30 +1,23 @@
-index = 123:132;
-inc = 10;
+Base = 'Neocortex N.30May16.S1.E67';
+Similar = 'Neocortex N.30May16.S1.E71';
+Similar2 = 'Neocortex N.30May16.S1.E58';
+Different = 'Neocortex N.30May16.S1.E64';
+Different2 = 'Neocortex N.30May16.S1.E68';
 
-final_str = '{';
-for n = 1:length(index)
-    temp_str = sprintf('S1.E%d+S1.E%d*10', index(n), index(n)+inc);
-    final_str = [final_str, temp_str];
-    if n < length(index)
-        final_str = [final_str, ';'];
-    else
-        final_str = [final_str, '}'];
-    end
-end
 
-%%
-index1 = 22:31;
-inc1 = 10;
-index2 = 123:132;
-inc2 = 10;
 
-final_str = '{';
-for n = 1:length(index1)
-    temp_str = sprintf('S1.E%d+S1.E%d*10-S1.E%d-S1.E%d*10', index1(n), index1(n)+inc1, index2(n), index2(n)+inc2);
-    final_str = [final_str, temp_str];
-    if n < length(index)
-        final_str = [final_str, ';'];
-    else
-        final_str = [final_str, '}'];
-    end
-end
+Base_spk = get_spike_num(Base);
+Similar_spk = get_spike_num(Similar);
+[Similar2_spk,Vs] = get_spike_num(Similar2);
+Different_spk = get_spike_num(Different);
+Different2_spk = get_spike_num(Different);
+d = spkd(Base_spk, Similar_spk, 0.1)
+
+
+[d,scr]=spkd_int_FAST_post(Base_spk,Similar_spk,0.1,2000);
+
+
+
+
+
+

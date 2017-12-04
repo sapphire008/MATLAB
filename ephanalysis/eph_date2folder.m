@@ -1,7 +1,7 @@
 function path = eph_date2folder(yy, mm, dd)
 % convert year, month, day to folder structure of data set
 if yy<1000
-    yy = yy + 2000 # good for this century
+    yy = yy + 2000; % good for this century
 end
 mm_name_dict = {'January','February', 'March', 'April', 'May',...
     'June', 'July', 'August','September','October',...

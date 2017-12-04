@@ -1,4 +1,4 @@
-function  AWF_ERG_VoltClamp_08012017(savedir, boolplot)
+function  [waveform, duration] = AWF_ERG_VoltClamp_08012017(savedir, boolplot)
 % Makes AWF resulting the protocol: Neg - Leak - Leak - Test
 protocol = 'V1/2'; % V1/2, activation_tau, deactivation_tau
 iterator = '0'; % helps sipmly the process of iteating through different values of each protocol
@@ -21,7 +21,7 @@ ActivationVolt = 0; % Voltage to depolarize to
 
 DeactivationDuration = 2000; % Duration of tail current step before returning to RMP
 %% #######################################################################
-DeactivationVolt = -80; % Voltage to hyperpolarize to (mV)
+DeactivationVolt = -120; % Voltage to hyperpolarize to (mV)
 %% #######################################################################
 
 LeakProtocolScale = 4; % ratio of current measuring protocol vs. leak subtraction protocol
@@ -102,9 +102,6 @@ for n = 1: length(Steps)
             Plateau = factor * Steps{n}(1,m)* ones(1,length(0:ts:Steps{n}(2,m))-1-length(Ramp));
             waveform = [waveform, Ramp, Plateau];
             
-            if n == 4
-                disp('here');
-            end
         else
             waveform = [waveform, factor * Steps{n}(1,m)*ones(1, length(0:ts:Steps{n}(2,m))-1)];
         end
@@ -123,11 +120,11 @@ end
 
 disp(duration);
 
-% % Write protocol to binary file
-% fid = fopen(savedir,'w');
-% %fwrite(fid, waveform, 'float64');
-% fprintf(fid, '%.2f\r\n', waveform);
-% fclose(fid);
+% Write protocol to binary file
+fid = fopen(savedir,'w');
+%fwrite(fid, waveform, 'float64');
+fprintf(fid, '%.2f\r\n', waveform);
+fclose(fid);
 if boolplot
     close;
     t = (0:ts:duration)/1000;
