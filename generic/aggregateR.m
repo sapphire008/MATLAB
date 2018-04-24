@@ -22,6 +22,10 @@ function aggregated_dataframe = aggregateR(dataframe,aggregate_by,func_handle,ag
 % separate data from column header
 col_header = dataframe(1,:);
 dataframe = dataframe(2:end,:);
+% Check if all col_headers are strings
+if ~all(cellfun(@ischar, col_header))
+    error('Not all column headers are strings. Make sure all column headers are strings');
+end
 % Check if column header has NaN in them
 if any(cell2mat(cellfun(@(x) all(isnan(x)), col_header, 'un',0)))
    error('Some column header has NaN');

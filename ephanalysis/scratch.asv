@@ -9,28 +9,18 @@ CCh_5000ms_file1 = 'D:/Edward/Documents/Assignments/Case Western Reserve/Strowbr
 
 
 %% Comparing across the same absolute time
-% windows = [15,20];
-% 
-% Rin_out_500ms_1 = get_average_Rin(CCh_500ms_file1, windows);
-% Rin_out_5000ms_1 = get_average_Rin(CCh_5000ms_file1, windows);
-% Rin_out_500ms_2 = get_average_Rin(CCh_500ms_file2, windows);
-% 
-% % Do some stats
-% [~, p] = ttest(Rin_out_500ms_1)
-% [~, p] = ttest(Rin_out_5000ms_1)
-% [~, p] = ttest(Rin_out_500ms_1, Rin_out_5000ms_1)
-% [~, p] = ttest2(Rin_out_500ms_2, Rin_out_5000ms_1)
-
-%% Comparing across the same relative time
 windows = [15,20];
+
 Rin_out_500ms_1 = get_average_Rin(CCh_500ms_file1, windows);
-Rin_out_5000ms_1 = get_average_Rin(CCh_5000ms_file1, windows+5);
+Rin_out_5000ms_1 = get_average_Rin(CCh_5000ms_file1, windows);
 Rin_out_500ms_2 = get_average_Rin(CCh_500ms_file2, windows);
 
-%[~, p] = ttest(Rin_out_500ms_1)
-[~, p] = ttest(Rin_out_5000ms_1)
-%[~, p] = ttest(Rin_out_500ms_1, Rin_out_5000ms_1)
-%[~, p] = ttest2(Rin_out_500ms_2, Rin_out_5000ms_1)
+% Do some stats
+[~, p] = ttest(Rin_out_500ms_1, Rin_out_5000ms_1)
+[~, p] = ttest2(Rin_out_500ms_2, Rin_out_5000ms_1)
+
+%%
+
 
 %%
 function Rin_out = get_average_Rin(matfile, windows, average_time)

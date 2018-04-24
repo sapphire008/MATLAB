@@ -1,4 +1,4 @@
-function [AP_time, thresh, fAHP, AP_height, max_rising, APs, fAHP_time, AP_width, AP_half_width] = ...
+function [AP_time, thresh, fAHP, AP_height, max_rising, APs, fAHP_time, AP_width, AP_half_width, thresh_time] = ...
     eph_isolateAP(Vs, ts, kernel, numap2get, rising_thresh, varargin)
 % Isolate action potentials from a time series of voltage trace. Summarize
 % the properties of these action potentials
@@ -51,15 +51,15 @@ try % see if can detect any APs at all
     [numAP, AP_time, ~] = eph_count_spikes(Vs, ts, varargin{:});
     ind = eph_time2ind(AP_time, ts);
 catch
-    [AP_time, thresh, fAHP, AP_height, max_rising, APs] = tuple(NaN);
+    [AP_time, thresh, fAHP, AP_height, max_rising, APs, fAHP_time, AP_width, AP_half_width, thresh_time] = tuple(NaN);
     return
 end
 if numAP < 1
-    [AP_time, thresh, fAHP, AP_height, max_rising, APs] = tuple(NaN);
+    [AP_time, thresh, fAHP, AP_height, max_rising, APs, fAHP_time, AP_width, AP_half_width, thresh_time] = tuple(NaN);
     return
 end
 %%
-[thresh, fAHP, fAHP_ind, AP_height, max_rising, AP_width, AP_half_width] = tuple(NaN(1,length(ind)));
+[thresh, fAHP, fAHP_ind, AP_height, max_rising, AP_width, AP_half_width, thresh_time] = tuple(NaN(1,length(ind)));
 APs = cell(1,length(ind));
 APs_time_segment = cell(1,length(ind));
 % Identify each fAHP first
@@ -122,6 +122,8 @@ for k = 1:numap2get
     
     [~, thresh_ind] = min(abs(dAP(1:max_rising_time) - thresh_thresh));
     thresh(k) = AP(thresh_ind);
+    % disp(thresh_ind);
+    thresh_time(k) = eph_ind2time(thresh_ind, ts);
     %plot(thresh_ind, thresh, 'bo');
     AP_height(k) = max(AP) - thresh(k);
     % AP width from the threshold
